@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HealthCareModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="HealthCareModelStoreContainer">
+    <EntitySet Name="CitySets" EntityType="HealthCareModel.Store.CitySets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ConsultationSets" EntityType="HealthCareModel.Store.ConsultationSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FileSets" EntityType="HealthCareModel.Store.FileSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RDVSets" EntityType="HealthCareModel.Store.RDVSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserSets" EntityType="HealthCareModel.Store.UserSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PatientSets" EntityType="HealthCareModel.Store.PatientSets" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_FileConsultation" Association="HealthCareModel.Store.FK_FileConsultation">
+      <End Role="FileSet" EntitySet="FileSets" />
+      <End Role="ConsultationSet" EntitySet="ConsultationSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RDVPatient" Association="HealthCareModel.Store.FK_RDVPatient">
+      <End Role="UserSet_Patient" EntitySet="PatientSets" />
+      <End Role="RDVSet" EntitySet="RDVSets" />
+    </AssociationSet>
+    <AssociationSet Name="CitySetPatientSet" Association="HealthCareModel.Store.CitySetPatientSet">
+      <End Role="CitySet" EntitySet="CitySets" />
+      <End Role="PatientSet" EntitySet="PatientSets" />
+    </AssociationSet>
+    <AssociationSet Name="FileSetPatientSet" Association="HealthCareModel.Store.FileSetPatientSet">
+      <End Role="FileSet" EntitySet="FileSets" />
+      <End Role="PatientSet" EntitySet="PatientSets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CitySets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="postalCode" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConsultationSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="actNature" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="cost" Type="float" Nullable="false" />
+    <Property Name="FileId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="PatientSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RDVSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Patient_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="profile" Type="int" Nullable="false" />
+    <Property Name="IsSuperUser" Type="bit" Nullable="false" />
+    <Property Name="SUperMdp" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PatientSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="BirthDate" Type="datetime" Nullable="false" />
+    <Property Name="Occupation" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LastVisit" Type="datetime" Nullable="true" />
+    <Property Name="CellPhone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CitySetId" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_FileConsultation">
+    <End Role="FileSet" Type="HealthCareModel.Store.FileSets" Multiplicity="1" />
+    <End Role="ConsultationSet" Type="HealthCareModel.Store.ConsultationSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConsultationSet">
+        <PropertyRef Name="FileId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RDVPatient">
+    <End Role="UserSet_Patient" Type="HealthCareModel.Store.PatientSets" Multiplicity="1" />
+    <End Role="RDVSet" Type="HealthCareModel.Store.RDVSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserSet_Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RDVSet">
+        <PropertyRef Name="Patient_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CitySetPatientSet">
+    <End Role="CitySet" Type="HealthCareModel.Store.CitySets" Multiplicity="0..1" />
+    <End Role="PatientSet" Type="HealthCareModel.Store.PatientSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CitySet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientSet">
+        <PropertyRef Name="CitySetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FileSetPatientSet">
+    <End Role="FileSet" Type="HealthCareModel.Store.FileSets" Multiplicity="*" />
+    <End Role="PatientSet" Type="HealthCareModel.Store.PatientSets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="PatientSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FileSet">
+        <PropertyRef Name="PatientSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HealthCareModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CitySet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="postalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PatientSets" Relationship="HealthCareModel.CitySetPatientSet" FromRole="CitySet" ToRole="PatientSet" />
+        </EntityType>
+        <EntityType Name="ConsultationSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="actNature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cost" Type="Double" Nullable="false" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FileSet" Relationship="Self.FK_FileConsultation" FromRole="ConsultationSet" ToRole="FileSet" />
+        </EntityType>
+        <EntityType Name="FileSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ConsultationSets" Relationship="Self.FK_FileConsultation" FromRole="FileSet" ToRole="ConsultationSet" />
+          <NavigationProperty Name="PatientSet" Relationship="HealthCareModel.FileSetPatientSet" FromRole="FileSet" ToRole="PatientSet" />
+        </EntityType>
+        <EntityType Name="RDVSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patient_Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="profile" Type="Int32" Nullable="false" />
+          <Property Name="IsSuperUser" Type="Boolean" Nullable="false" />
+          <Property Name="SUperMdp" Type="String" Nullable="true" />
+        </EntityType>
+        <EntityType Name="PatientSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" />
+          <Property Name="Occupation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+          <Property Name="LastVisit" Type="DateTime" Nullable="true" />
+          <Property Name="CellPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="RDVSets" Relationship="Self.FK_RDVPatient" FromRole="UserSet_Patient" ToRole="RDVSet" />
+          <NavigationProperty Name="CitySet" Relationship="HealthCareModel.CitySetPatientSet" FromRole="PatientSet" ToRole="CitySet" />
+          <Property Name="CitySetId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="FileSet" Relationship="HealthCareModel.FileSetPatientSet" FromRole="PatientSet" ToRole="FileSet" />
+        </EntityType>
+        <Association Name="FK_FileConsultation">
+          <End Role="FileSet" Type="Self.FileSet" Multiplicity="1" />
+          <End Role="ConsultationSet" Type="Self.ConsultationSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConsultationSet">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RDVPatient">
+          <End Role="UserSet_Patient" Type="HealthCareModel.PatientSet" Multiplicity="1" />
+          <End Role="RDVSet" Type="Self.RDVSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserSet_Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RDVSet">
+              <PropertyRef Name="Patient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HealthCareEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CitySets" EntityType="Self.CitySet" />
+          <EntitySet Name="ConsultationSets" EntityType="Self.ConsultationSet" />
+          <EntitySet Name="FileSets" EntityType="Self.FileSet" />
+          <EntitySet Name="RDVSets" EntityType="Self.RDVSet" />
+          <EntitySet Name="UserSets" EntityType="Self.UserSet" />
+          <EntitySet Name="PatientSets" EntityType="HealthCareModel.PatientSet" />
+          <AssociationSet Name="FK_FileConsultation" Association="Self.FK_FileConsultation">
+            <End Role="FileSet" EntitySet="FileSets" />
+            <End Role="ConsultationSet" EntitySet="ConsultationSets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RDVPatient" Association="Self.FK_RDVPatient">
+            <End Role="UserSet_Patient" EntitySet="PatientSets" />
+            <End Role="RDVSet" EntitySet="RDVSets" />
+          </AssociationSet>
+          <AssociationSet Name="CitySetPatientSet" Association="HealthCareModel.CitySetPatientSet">
+            <End Role="CitySet" EntitySet="CitySets" />
+            <End Role="PatientSet" EntitySet="PatientSets" />
+          </AssociationSet>
+          <AssociationSet Name="FileSetPatientSet" Association="HealthCareModel.FileSetPatientSet">
+            <End Role="FileSet" EntitySet="FileSets" />
+            <End Role="PatientSet" EntitySet="PatientSets" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="CitySetPatientSet">
+          <End Type="HealthCareModel.CitySet" Role="CitySet" Multiplicity="0..1" />
+          <End Type="HealthCareModel.PatientSet" Role="PatientSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CitySet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PatientSet">
+              <PropertyRef Name="CitySetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FileSetPatientSet">
+          <End Type="HealthCareModel.FileSet" Role="FileSet" Multiplicity="0..1" />
+          <End Type="HealthCareModel.PatientSet" Role="PatientSet" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HealthCareModelStoreContainer" CdmEntityContainer="HealthCareEntities3">
+    <EntitySetMapping Name="CitySets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.CitySet)">
+        <MappingFragment StoreEntitySet="CitySets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConsultationSets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.ConsultationSet)">
+        <MappingFragment StoreEntitySet="ConsultationSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="actNature" ColumnName="actNature" />
+          <ScalarProperty Name="cost" ColumnName="cost" />
+          <ScalarProperty Name="FileId" ColumnName="FileId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileSets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.FileSet)">
+        <MappingFragment StoreEntitySet="FileSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RDVSets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.RDVSet)">
+        <MappingFragment StoreEntitySet="RDVSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="Patient_Id" ColumnName="Patient_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserSets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.UserSet)">
+        <MappingFragment StoreEntitySet="UserSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="profile" ColumnName="profile" />
+          <ScalarProperty Name="IsSuperUser" ColumnName="IsSuperUser" />
+          <ScalarProperty Name="SUperMdp" ColumnName="SUperMdp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientSets">
+      <EntityTypeMapping TypeName="IsTypeOf(HealthCareModel.PatientSet)">
+        <MappingFragment StoreEntitySet="PatientSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+          <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CitySetId" ColumnName="CitySetId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FileSetPatientSet" TypeName="HealthCareModel.FileSetPatientSet" StoreEntitySet="FileSets">
+      <EndProperty Name="PatientSet">
+        <ScalarProperty Name="Id" ColumnName="PatientSet_Id" />
+      </EndProperty>
+      <EndProperty Name="FileSet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
