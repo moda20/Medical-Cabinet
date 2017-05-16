@@ -22,12 +22,14 @@ namespace Test
         public rdv()
         {
             InitializeComponent();
+            var ViewModel = new RDVWiewModel();
+            DataContext = ViewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            this.Close();
+            
             AddRdv rdv_add = new AddRdv();
             rdv_add.ShowDialog();
 

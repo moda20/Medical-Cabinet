@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Test"
         xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="Test.NewPatients"
         mc:Ignorable="d"
-        Title="New Patients" Height="875.639" Width="423.496" Custom:ControlsHelper.ContentCharacterCasing="Upper">
+        Title="New Patients" Height="1225.589" Width="423.496" Custom:ControlsHelper.ContentCharacterCasing="Upper">
     <Grid Margin="0,0,2,192">
         <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="413">
             <MenuItem Header="Home" Click="MenuItem_Click"/>

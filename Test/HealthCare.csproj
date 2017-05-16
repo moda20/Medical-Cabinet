@@ -133,6 +133,7 @@
     <Compile Include="RDVSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="RDVWiewModel.cs" />
     <Compile Include="UserSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
