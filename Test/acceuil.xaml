@@ -39,7 +39,7 @@
                 <Label Content="Search Criterias" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top"/>
                 <Rectangle Fill="#FFF4F4F5" Height="98" Margin="10,41,10,0" Stroke="Black" VerticalAlignment="Top"/>
                 <Label Content="Date :" HorizontalAlignment="Left" Margin="19,53,0,0" VerticalAlignment="Top"/>
-                <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="60,53,0,0" VerticalAlignment="Top" Width="297" IsTodayHighlighted="True"/>
+                <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="60,53,0,0" VerticalAlignment="Top" Width="297" IsTodayHighlighted="True" />
                 <Button Command="{Binding Searching}" Content="Search" HorizontalAlignment="Left" Margin="330,110,0,0" VerticalAlignment="Top" Width="65"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="60,82,0,0" TextWrapping="Wrap" Text="{Binding SearChkey, Mode=TwoWay}" VerticalAlignment="Top" Width="297"/>
             </Grid>

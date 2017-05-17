@@ -25,7 +25,7 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="307" Margin="10,74,0,0" Stroke="Black" VerticalAlignment="Top" Width="238"/>
         <Label x:Name="date" Content="Name" HorizontalAlignment="Left" Margin="24,85,0,0" VerticalAlignment="Top"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="256,76,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
-        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="291,103,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="291,103,0,0" Width="75" Height="20" VerticalAlignment="Top"/>
         <Button  Command ="{Binding MODIFY}" Content="Modify" HorizontalAlignment="Left" Margin="291,139,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Delete" Command ="{Binding DELETE}" HorizontalAlignment="Left" Margin="291,176,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="291,212,0,0" VerticalAlignment="Top" Width="75"/>

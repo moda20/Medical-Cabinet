@@ -33,15 +33,15 @@
             </Label.Foreground>
         </Label>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Margin="-10,110,0,0" Stroke="Black" VerticalAlignment="Top" Width="215"/>
-        <ComboBox SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" x:Name="cboPatient" HorizontalAlignment="Left" Margin="65,149,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="date" Content="Patient :" HorizontalAlignment="Left" Margin="2,145,0,0" VerticalAlignment="Top"/>
+        <ComboBox SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" DisplayMemberPath="FirstName" x:Name="cboPatient" HorizontalAlignment="Left" Margin="65,149,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="date" Content="Patient :" HorizontalAlignment="Left" Margin="7,149,0,0" VerticalAlignment="Top"/>
         <Label Content="Date :" HorizontalAlignment="Left" Margin="2,186,0,0" VerticalAlignment="Top"/>
         <DatePicker SelectedDate="{Binding RDVDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="65,186,0,0" VerticalAlignment="Top" Width="120"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="151" Margin="210,112,0,0" Stroke="Black" VerticalAlignment="Top" Width="112"/>
         <Button  Content="New" HorizontalAlignment="Left" Margin="232,123,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="Modify" HorizontalAlignment="Left" Margin="232,160,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Delete" HorizontalAlignment="Left" Margin="232,196,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Empty" HorizontalAlignment="Left" Margin="232,232,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Modify" Command="{Binding MODIFY}" HorizontalAlignment="Left" Margin="232,160,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Delete"  Command="{Binding DELETE}" HorizontalAlignment="Left" Margin="232,196,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="232,232,0,0" VerticalAlignment="Top" Width="75"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="263" Margin="-13,266,0,0" Stroke="Black" VerticalAlignment="Top" Width="335" RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
                 <TransformGroup>
@@ -58,11 +58,11 @@
         <Button Command="{Binding SEARCH}"  x:Name="button" Content="Search" HorizontalAlignment="Left" Margin="220,291,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1"/>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="190" Margin="0,334,0,0" VerticalAlignment="Top" Width="322">
             <TabItem Header="Rendez-vous">
-                <DataGrid ItemsSource="{Binding RDVS, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="145" Width="292" AutoGeneratingColumn="DG1_AutoGeneratingColumn"/>
+                <DataGrid ItemsSource="{Binding RDVS1, Mode=TwoWay}" Margin="10,10,14,0" VerticalAlignment="Top" Height="145" AutoGeneratingColumn="DG2_AutoGeneratingColumn" SelectedItem="{Binding SelectedRDV1, Mode=TwoWay}"/>
 
             </TabItem>
             <TabItem Header="Patients">
-                <DataGrid ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="195" Width="414" AutoGeneratingColumn="DG1_AutoGeneratingColumn"/>
+                <DataGrid ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="154" Width="302" AutoGeneratingColumn="DG1_AutoGeneratingColumn" SelectedItem="{Binding SelectedPatient2}"/>
 
             </TabItem>
         </TabControl>
@@ -77,5 +77,9 @@
             </Label.Foreground>
         </Label>
         <Image x:Name="image" HorizontalAlignment="Left" Height="38" Margin="34,58,0,0" VerticalAlignment="Top" Width="50" Source="images/download.jpg"/>
+        <ComboBox SelectedItem="{Binding State1, Mode=TwoWay}" DisplayMemberPath="FirstName" x:Name="cboPatient_Copy" HorizontalAlignment="Left" Margin="65,222,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="Approved"/>
+        </ComboBox>
+        <Label x:Name="date_Copy" Content="State :" HorizontalAlignment="Left" Margin="7,218,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

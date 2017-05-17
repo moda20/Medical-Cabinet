@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight;
 using System.Windows;
 
-namespace Test
+namespace Test 
 {
-    class acceuilViewModel 
+    class acceuilViewModel : ViewModelBase
     {
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
@@ -36,6 +37,7 @@ namespace Test
             set
             {
                 _Patients = value;
+                RaisePropertyChanged("Patients");
             }
         }
 
@@ -55,12 +57,14 @@ namespace Test
             set
             {
                 _Files = value;
+                RaisePropertyChanged("Files");
+                
             }
         }
-        private DateTime SearchDate;
+        private DateTime SearchDate = DateTime.Today;
         private String searChkey;
-        public DateTime SearchDate1 { get { return SearchDate; } set { SearchDate = value; } }
-        public string SearChkey { get { return searChkey; } set { searChkey = value; } }
+        public DateTime SearchDate1 { get { return SearchDate; } set { SearchDate = value;RaisePropertyChanged("SearchDate1"); } }
+        public string SearChkey { get { return searChkey; } set { searChkey = value; RaisePropertyChanged("SearChkey"); } }
 
 
 
@@ -69,12 +73,13 @@ namespace Test
         public RelayCommand Searching { private set; get; }
         public void Search()
         {
-            if (SearchDate != null && searChkey != null)
+            if (SearchDate != null || searChkey != null)
             {
                 List<PatientSet> UList = new List<PatientSet>();
-                UList = ctx.PatientSets.Where(u => u.LastVisit >= SearchDate || u.FirstName == searChkey).ToList();
+                Patients = ctx.PatientSets.Where(u => u.LastVisit > SearchDate || u.FirstName == searChkey).ToList();
                 List<FileSet> Listf = new List<FileSet>();
-                Listf = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
+                Files = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
+                MessageBox.Show("Number of files found" +Files.Count+"  Number of Patients : "+Patients.Count  );
 
             }
         }

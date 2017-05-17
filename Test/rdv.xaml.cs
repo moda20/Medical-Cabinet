@@ -36,17 +36,11 @@ namespace Test
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            acceuil x = new acceuil();
+            NewPatients x = new NewPatients();
             x.Show();
             this.Close();
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
-        {
-            rdv x = new rdv();
-            x.Show();
-            
-        }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
@@ -67,6 +61,88 @@ namespace Test
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
+             fiches X = new fiches();
+            X.Show();
+            this.Close();
+        }
+        private void DG1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+
+            ////Cancel the column you don't want to generate
+            //if (headername == "MiddleName")
+            //{
+            //    e.Cancel = true;
+            //}
+
+            //update column details when generating
+            if (headername == "FileSet")
+            {
+                e.Column.Header = "File Id";
+
+                (e.Column as DataGridTextColumn).Binding = new Binding("FileSet.Id");
+            }
+            else if (headername == "CitySet")
+            {
+                e.Column.Header = "City Name";
+                (e.Column as DataGridTextColumn).Binding = new Binding("CitySet.name");
+            }
+            else if (headername == "RDVSets")
+            {
+                e.Cancel = true;
+
+
+            }
+            else if (headername == "CitySetId")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "FileId")
+            {
+                e.Cancel = true;
+                e.Column.Header = "File Id";
+
+            }
+
+        }
+        private void DG2_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+
+            ////Cancel the column you don't want to generate
+            //if (headername == "MiddleName")
+            //{
+            //    e.Cancel = true;
+            //}
+
+            //update column details when generating
+            if (headername == "state")
+            {
+                e.Column.Header = "State";
+                
+                (e.Column as DataGridTextColumn).Binding = new Binding("state");
+            }
+            else if (headername == "CitySet")
+            {
+                e.Column.Header = "City Name";
+                (e.Column as DataGridTextColumn).Binding = new Binding("CitySet.name");
+            }
+            else if (headername == "RDVSets")
+            {
+                e.Cancel = true;
+
+
+            }
+            else if (headername == "CitySetId")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "FileId")
+            {
+                e.Cancel = true;
+                e.Column.Header = "File Id";
+
+            }
 
         }
     }
