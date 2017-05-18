@@ -23,7 +23,7 @@
         </Label>
         <Image HorizontalAlignment="Left" Height="34" Margin="86,68,0,0" VerticalAlignment="Top" Width="61" Source="images/téléchargement.jpg"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="10,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="238"/>
-        <ComboBox ItemsSource="{Binding Files, Mode=TwoWay}" SelectedItem="{Binding SelectedFile, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="87,149,0,0" VerticalAlignment="Top" Width="120" />
+        <ComboBox ItemsSource="{Binding Files, Mode=TwoWay}" SelectedItem="{Binding SelectedFile1, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="87,149,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Id"/>
         <Label x:Name="date" Content="File :" HorizontalAlignment="Left" Margin="34,149,0,0" VerticalAlignment="Top"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="264,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
         <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="299,164,0,0" VerticalAlignment="Top" Width="75"/>
@@ -32,7 +32,7 @@
         <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="299,273,0,0" VerticalAlignment="Top" Width="75"/>
         <Label HorizontalAlignment="Left" Margin="24,212,0,0" VerticalAlignment="Top"/>
         <Label Content="Date :" HorizontalAlignment="Left" Margin="31,186,0,0" VerticalAlignment="Top"/>
-        <DatePicker SelectedDate="{Binding FileDate, Mode=TwoWay}" HorizontalAlignment="Left" Margin="87,184,0,0" VerticalAlignment="Top" Width="120"/>
+        <DatePicker SelectedDate="{Binding CtDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="87,184,0,0" VerticalAlignment="Top" Width="120"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="281" Margin="10,333,0,0" Stroke="Black" VerticalAlignment="Top" Width="412"/>
         <Grid HorizontalAlignment="Left" Height="86" Margin="24,433,0,0" VerticalAlignment="Top" Width="367"/>
         <Grid HorizontalAlignment="Left" Height="48" Margin="34,347,0,0" VerticalAlignment="Top" Width="367" Background="#FFFBFBFB">
@@ -46,9 +46,9 @@
             <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="129,11,0,0" VerticalAlignment="Top"/>
             <Button Command="{Binding SEARCH}" Content="Search" HorizontalAlignment="Left" Margin="268,11,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <DataGrid  SelectedItem="{Binding SelectedConsultation1, Mode=TwoWay}" ItemsSource="{Binding Consultations1 , Mode=TwoWay}" x:Name="dataGrid" HorizontalAlignment="Left" Margin="34,400,0,0" VerticalAlignment="Top" Height="184" Width="367"/>
-        <TextBox Text="{Binding POccupation1, Mode=TwoWay}" x:Name="POccupation" HorizontalAlignment="Left" Height="26" Margin="87,231,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox Text="{Binding POccupation1, Mode=TwoWay}" x:Name="POccupation_Copy" HorizontalAlignment="Left" Height="23" Margin="87,270,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <DataGrid  SelectedItem="{Binding SelectedConsultation1, Mode=TwoWay}" ItemsSource="{Binding Consultations1 , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="dataGridConsultation" HorizontalAlignment="Left" Margin="34,400,0,0" VerticalAlignment="Top" Height="184" Width="367"/>
+        <TextBox Text="{Binding Act1, Mode=TwoWay}" x:Name="POccupation" HorizontalAlignment="Left" Height="26" Margin="87,231,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox Text="{Binding  Cost1, Mode=TwoWay}" x:Name="POccupation_Copy" HorizontalAlignment="Left" Height="23" Margin="87,270,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <Label Content="Act :" HorizontalAlignment="Left" Margin="31,231,0,0" VerticalAlignment="Top"/>
         <Label Content="Cost :" HorizontalAlignment="Left" Margin="31,270,0,0" VerticalAlignment="Top"/>
 

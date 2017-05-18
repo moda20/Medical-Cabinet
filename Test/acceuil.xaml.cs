@@ -125,5 +125,12 @@ namespace Test
             rdv rdv = new rdv();
             rdv.ShowDialog();
         }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            UserCity x = new UserCity();
+            x.Show();
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace Test
         public Consultation()
         {
             InitializeComponent();
+            var ViewModel = new ConsultationModelView();
+            DataContext = ViewModel;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

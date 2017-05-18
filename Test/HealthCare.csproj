@@ -138,6 +138,10 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="RDVWiewModel.cs" />
+    <Compile Include="UserCity.xaml.cs">
+      <DependentUpon>UserCity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCityModelView.cs" />
     <Compile Include="UserSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -186,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewPatients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserCity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

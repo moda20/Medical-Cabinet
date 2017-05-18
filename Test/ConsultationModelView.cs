@@ -18,17 +18,20 @@ namespace Test
             ADDNEW = new RelayCommand(NewConsultation);
             MODIFY = new RelayCommand(ModifyConsultation);
             DELETE = new RelayCommand(deleteConsultation);
+            EMPTY = new RelayCommand(emptyConsultation);
+            SEARCH = new RelayCommand(searching);
 
         }
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
 
-        private DateTime CtDate;
+        private DateTime CtDate = DateTime.Today;
         private float Cost;
         private String Act;
         private ConsultationSet SelectedConsultation;
         private FileSet SelectedFile;
         private List<ConsultationSet> Consultations;
+        private DateTime SearchDate;
 
 
         private List<FileSet> _Files;
@@ -120,19 +123,20 @@ namespace Test
         {
 
             ConsultationSet cts = new ConsultationSet();
-            if (Act1!= null && CtDate1 != null && Cost1 != null && SelectedFile1 != null)
+            if (Act1 != null && CtDate1 != null && Cost1 != 0 && SelectedFile1 != null)
             {
                 cts.actNature = Act1;
                 cts.cost = Cost1;
                 cts.date = (CtDate1).ToShortDateString();
                 cts.FileSet = SelectedFile1;
-
-            }
                 try
                 {
                     ctx.ConsultationSets.Add(cts);
                     ctx.SaveChanges();
-                    MessageBox.Show("Consultation Added");
+                    MessageBox.Show("Consultation Added"+ Files.Count);
+                    
+                    RaisePropertyChanged("Files");
+                   
                 }
                 catch (DbEntityValidationException e)
                 {
@@ -147,6 +151,12 @@ namespace Test
                         }
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Entries can not be empty");
+            }
+                
             
         }
 
@@ -249,5 +259,31 @@ namespace Test
             RaisePropertyChanged("SelectedConsultation1");
             
         }
-    }
+        
+
+        public DateTime SearchDate1
+        {
+            get
+            {
+                return SearchDate;
+            }
+
+            set
+            {
+                SearchDate = value;
+                RaisePropertyChanged("SearchDate1");
+            }
+        }
+        public RelayCommand SEARCH { private set; get; }
+        public void searching()
+        {
+            if (SearchDate1 != null)
+            {
+                Consultations1 = ctx.ConsultationSets.Where(u => DateTime.Parse(u.date) > SearchDate1).ToList();
+                RaisePropertyChanged("SearchDate1");
+                MessageBox.Show("Found : " + Consultations1.Count + " Consultations");
+            }
+        }
+
+}
 }

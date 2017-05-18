@@ -7,7 +7,7 @@
         xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="Test.NewPatients"
         mc:Ignorable="d"
         Title="New Patients" Height="1225.589" Width="423.496" Custom:ControlsHelper.ContentCharacterCasing="Upper">
-    <Grid Margin="0,0,2,192">
+    <Grid Margin="0,0,2,1">
         <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="413">
             <MenuItem Header="Home" Click="MenuItem_Click"/>
             <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
@@ -38,7 +38,7 @@
             <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top"/>
             <Button Command="{Binding SEARCH}" Content="Search" HorizontalAlignment="Left" Margin="282,15,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <ListView SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="23,477,0,0" Width="357" DisplayMemberPath="FirstName" Height="152" VerticalAlignment="Top" />
+        <ListView SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="31,481,0,0" Width="357" DisplayMemberPath="FirstName" Height="152" VerticalAlignment="Top" />
         <Label x:Name="date_Copy" Content="Last Name" HorizontalAlignment="Left" Margin="24,116,0,0" VerticalAlignment="Top"/>
         <Label x:Name="date_Copy1" Content="Occupation" HorizontalAlignment="Left" Margin="23,186,0,0" VerticalAlignment="Top"/>
         <Label x:Name="date_Copy2" Content="Last Visit" HorizontalAlignment="Left" Margin="25,217,0,0" VerticalAlignment="Top"/>
