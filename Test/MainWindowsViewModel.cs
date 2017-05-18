@@ -70,7 +70,7 @@ namespace Test
                     if (USER.password == pass)
                     {
                         MessageBox.Show("Connected");
-                        acceuil acceuil = new acceuil();
+                        acceuil acceuil = new acceuil(USER.profile);
                         acceuil.Show();
                         this.Close();
                     }

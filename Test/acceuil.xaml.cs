@@ -19,10 +19,10 @@ namespace Test
     /// </summary>
     public partial class acceuil : Window
     {
-        public acceuil()
+        public acceuil(int X)
         {
             InitializeComponent();
-            var ViewModel = new acceuilViewModel();
+            var ViewModel = new acceuilViewModel(X);
             DataContext = ViewModel;
         }
 

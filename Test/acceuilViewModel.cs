@@ -15,13 +15,27 @@ namespace Test
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
 
-        public acceuilViewModel()
+        public acceuilViewModel(int X)
         {
+            ProfilePassed1 = UTOS(X);
             Searching = new RelayCommand(Search);
         }
+        public String UTOS(int x)
+        {
+            switch (x)
+            {
+
+                case 2: return "Secretary";
+                case 4: return "Doctor";
+                case 3: return "Patient";
+                default: return "admin";
+
+            }
 
 
-
+        }
+        private String ProfilePassed;
+       
         private List<PatientSet> _Patients;
 
         public List<PatientSet> Patients
@@ -71,6 +85,20 @@ namespace Test
 
 
         public RelayCommand Searching { private set; get; }
+
+        public string ProfilePassed1
+        {
+            get
+            {
+                return ProfilePassed;
+            }
+
+            set
+            {
+                ProfilePassed = value;
+            }
+        }
+
         public void Search()
         {
             if (SearchDate != null || searChkey != null)
