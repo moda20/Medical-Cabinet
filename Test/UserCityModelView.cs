@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Test
 {
@@ -15,6 +16,13 @@ namespace Test
         public UserCityModelView()
         {
             ADDNEWCITY = new RelayCommand(addCity);
+            MODIFYCITY = new RelayCommand(modifyCity);
+            DELETECITY = new RelayCommand(deleteCity);
+            EMPTYCITY = new RelayCommand(EmptyCity);
+            EMPTYUSER = new RelayCommand(emptyUser);
+            ADDNEWUSER = new RelayCommand(newUSer);
+            MODIFYUSER = new RelayCommand(modifyUser);
+            DELETEUSER = new RelayCommand(deleteUser);
         }
 
         private List<CitySet> Cities;
@@ -26,6 +34,7 @@ namespace Test
         private String Login;
         private String Pass;
         private Boolean Sadmin;
+        private String Profile;
         HealthCareEntities3 ctx = new HealthCareEntities3();
         public List<CitySet> Cities1
         {
@@ -87,6 +96,7 @@ namespace Test
                 Login1 = value.login;
                 Pass1 = value.password;
                 Sadmin1 = value.IsSuperUser;
+                Profile1 = UTOS(value.profile);
                 RaisePropertyChanged("SelectedUser1");
             }
         }
@@ -176,6 +186,8 @@ namespace Test
                 {
                     ctx.CitySets.Add(city);
                     ctx.SaveChanges();
+                    MessageBox.Show("City Added");
+                    RaisePropertyChanged("Cities1");
                 }
                 catch (Exception e)
                 {
@@ -199,6 +211,7 @@ namespace Test
                 try
                 {
                     ctx.SaveChanges();
+                    MessageBox.Show("City with id : "+SelectedCity1.Id+" was Modified");
                 }
                 catch (Exception e )
                 {
@@ -210,6 +223,165 @@ namespace Test
             {
                 MessageBox.Show("Please Select a City to Modify");
             }
+        }
+        public RelayCommand DELETECITY { private set; get; }
+        public void deleteCity()
+        {
+            if (SelectedCity1 != null)
+            {
+                try
+                {
+                    SelectedCity1.PatientSets = null;
+                    ctx.CitySets.Remove(SelectedCity1);
+                    ctx.SaveChanges();
+                    MessageBox.Show("City Deleted");
+                }
+                catch (Exception e )
+                {
+
+                    MessageBox.Show("DataBase Conection Problem");
+                }
+            }
+        }
+        public RelayCommand EMPTYCITY { private set; get; }
+        public void EmptyCity()
+        {
+            CityName = null;
+            CityPostalCode1 = null;
+        }
+
+        public int UTOI(String x)
+        {
+            switch (x)
+            {
+
+                case "Secretary": return 2;
+                case "Doctor": return 4;
+                case "Patient": return 3;
+                default: return 1;
+                    
+            }
+
+
+        }
+        public String UTOS(int x)
+        {
+            switch (x)
+            {
+
+                case 2 : return  "Secretary";
+                case 4: return "Doctor";
+                case 3 : return "Patient";
+                default: return "admin";
+
+            }
+
+
+        }
+
+        public RelayCommand ADDNEWUSER { private set; get; }
+        public void newUSer()
+        {
+            if (Login1 !=null && Pass1!= null)
+            {
+                UserSet user = new UserSet();
+                user.login = Login1;
+                user.password = Pass1;
+                user.IsSuperUser = Sadmin1;
+                user.SUperMdp = Pass1;
+                user.profile = UTOI(Profile1);
+                try
+                {
+                    ctx.UserSets.Add(user);
+                    ctx.SaveChanges();
+                    RaisePropertyChanged("Uers1");
+                    MessageBox.Show("User "+user.login+"Create");
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show("DataBase Connection Error");
+                }
+            }
+            else
+            {
+                MessageBox.Show("All entries must be filled");
+            }
+        }
+        
+       
+
+        public String Profile1
+        {
+            get
+            {
+                return Profile;
+            }
+
+            set
+            {
+                Profile = value;
+                RaisePropertyChanged("Profile1");
+            }
+        }
+        public RelayCommand MODIFYUSER { private set; get; }
+        public void modifyUser()
+        {
+            if (SelectedUser1 != null)
+            {
+                 SelectedUser1.login= Login1 ;
+                 SelectedUser1.password = Pass1 ;
+                 SelectedUser1.IsSuperUser = Sadmin1 ;
+                 SelectedUser1.profile = UTOI(Profile1) ;
+
+                try
+                {
+                    ctx.SaveChanges();
+                    RaisePropertyChanged("SelectedUser1");
+                    MessageBox.Show("User Modified");
+
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show("DataBase Connection Error");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a User to Modify");
+            }
+        }
+        public RelayCommand DELETEUSER { private set; get; }
+        public void deleteUser()
+        {
+            if (SelectedUser1 != null)
+            {
+                ctx.UserSets.Remove(SelectedUser1);
+                try
+                {
+                    ctx.SaveChanges();
+                    RaisePropertyChanged("Users1");
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show("DataBase Connection Error");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a User to Delete");
+            }
+        }
+
+        public RelayCommand EMPTYUSER { private set; get; }
+        public void emptyUser()
+        {
+            Login1 = null;
+            Pass1 = null;
+            Sadmin1 = false;
+            Profile1 = UTOS(3);
         }
     }
 }

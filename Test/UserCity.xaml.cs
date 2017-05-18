@@ -25,5 +25,17 @@ namespace Test
             var ViewModel = new UserCityModelView();
             DataContext = ViewModel;
         }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            acceuil X = new acceuil();
+            X.Show();
+            this.Close();
+        }
     }
 }
