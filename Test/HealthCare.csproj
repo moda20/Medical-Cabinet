@@ -110,6 +110,10 @@
     <Compile Include="CitySet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Consultation.xaml.cs">
+      <DependentUpon>Consultation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultationModelView.cs" />
     <Compile Include="ConsultationSet.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -147,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddRdv.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consultation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

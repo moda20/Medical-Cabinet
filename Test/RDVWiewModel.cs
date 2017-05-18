@@ -43,6 +43,7 @@ namespace Test
             set
             {
                 _Patients = value;
+                RaisePropertyChanged("Patients");
             }
         }
 
@@ -56,6 +57,7 @@ namespace Test
             set
             {
                 SelectedPatient = value;
+                RaisePropertyChanged("SelectedPatient1");
             }
         }
 
@@ -69,6 +71,7 @@ namespace Test
             set
             {
                 RDVDate = value;
+                RaisePropertyChanged("RDVDate1");
             }
         }
 
@@ -83,6 +86,7 @@ namespace Test
             set
             {
                 RDVS = value;
+                RaisePropertyChanged("RDVS1");
             }
         }
 
@@ -99,6 +103,8 @@ namespace Test
                 RDVDate1 = value.date;
                 SelectedPatient1 = ctx.PatientSets.Find(value.Patient_Id);
                 State1 = value.state;
+                RaisePropertyChanged("SelectedRDV1");
+                
             }
         }
 
@@ -141,6 +147,7 @@ namespace Test
         {
             if (SelectedRDV1 != null)
             {
+                
                 ctx.RDVSets.Remove(SelectedRDV1);
 
                 try

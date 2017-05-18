@@ -56,7 +56,9 @@ namespace Test
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-
+            Consultation X = new Consultation();
+            X.Show();
+            this.Close();
         }
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)

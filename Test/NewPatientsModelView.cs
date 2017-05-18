@@ -113,7 +113,7 @@ namespace Test
         }
 
 
-        public RelayCommand ADDNEW { private set; get; }
+        
         public FileSet PFile1 { get { return PFile; } set { PFile = value; RaisePropertyChanged("PFile1"); } }
         public CitySet PCity1 { get { return PCity; } set { PCity = value;
                 RaisePropertyChanged("PCity1");
@@ -154,6 +154,7 @@ namespace Test
                 RaisePropertyChanged("PatientId1");
             }
         }
+        public RelayCommand ADDNEW { private set; get; }
 
         public void NewPatient()
         {
