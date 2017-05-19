@@ -33,7 +33,7 @@ namespace Test
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            acceuil X = new acceuil();
+            acceuil X = new acceuil(2);
             X.Show();
             this.Close();
         }

@@ -123,18 +123,21 @@ namespace Test
             get { return SelectedPatient; }
             set
             {
-                
-               
-                PName1 = value.FirstName;
-                PLastName1 = value.LastName;
-                PLASTVISIT1 = (DateTime)value.LastVisit;
-                PDateOfBirth1 = value.BirthDate;
-                PFile1 = value.FileSet;
-                PCity1 = value.CitySet;
-                PCellPhone1 = value.CellPhone;
-                PAddress1 = value.Address;
-                POccupation1 = value.Occupation;
-                PatientId1 = value.Id;
+
+
+                if (SelectedPatient!=null && value!=null)
+                {
+                    PName1 = value.FirstName;
+                    PLastName1 = value.LastName;
+                    PLASTVISIT1 = (DateTime)value.LastVisit;
+                    PDateOfBirth1 = value.BirthDate;
+                    PFile1 = value.FileSet;
+                    PCity1 = value.CitySet;
+                    PCellPhone1 = value.CellPhone;
+                    PAddress1 = value.Address;
+                    POccupation1 = value.Occupation;
+                    PatientId1 = value.Id;
+                }
                 SelectedPatient = value;
                 RaisePropertyChanged("SelectedPatient1");
                 
@@ -250,7 +253,12 @@ namespace Test
                 {
                     try
                     {
-                        ctx.FileSets.Remove(SelectedPatient1.FileSet);
+
+                        if (SelectedPatient1.FileSet !=  null)
+                        {
+                            ctx.FileSets.Remove(SelectedPatient1.FileSet);
+                        }
+                        ctx.RDVSets.RemoveRange(SelectedPatient1.RDVSets);
                         ctx.PatientSets.Remove(SelectedPatient);
                         ctx.SaveChanges();
                         RaisePropertyChanged("SelectedPatient1");
@@ -260,7 +268,7 @@ namespace Test
                     catch (Exception e)
                 {
 
-                    MessageBox.Show("Error in Deleting the Patient  ", e.ToString());
+                    MessageBox.Show("Error in Deleting the Patient  "+ e.ToString());
                 }
             }
                 else

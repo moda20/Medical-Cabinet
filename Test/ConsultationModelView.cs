@@ -107,10 +107,13 @@ namespace Test
             set
             {
                 SelectedConsultation = value;
-                Act1 = value.actNature;
-                CtDate1 =DateTime.Parse(value.date);
-                Cost1 = (float)value.cost;
-                SelectedFile1 = value.FileSet;
+                if (SelectedConsultation !=null)
+                {
+                    Act1 = value.actNature;
+                    CtDate1 = DateTime.Parse(value.date);
+                    Cost1 = (float)value.cost;
+                    SelectedFile1 = value.FileSet;
+                }
                 RaisePropertyChanged("SelectedConsultation1");
             }
         }

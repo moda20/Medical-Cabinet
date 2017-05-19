@@ -28,7 +28,7 @@ namespace Test
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            acceuil x = new acceuil();
+            acceuil x = new acceuil(2);
             x.Show();
             this.Close();
         }
