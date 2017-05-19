@@ -124,8 +124,8 @@ namespace Test
             set
             {
 
-
-                if (SelectedPatient!=null && value!=null)
+      
+                if ( value!=null)
                 {
                     PName1 = value.FirstName;
                     PLastName1 = value.LastName;
@@ -315,7 +315,8 @@ namespace Test
             {
                 try
                 {
-                    Patients=ctx.PatientSets.Where(u => u.LastVisit > SearchDate1).ToList();
+                    MessageBox.Show(SearchDate1.ToString());
+                    Patients=ctx.PatientSets.Where(u => u.LastVisit == SearchDate1).ToList();
                     RaisePropertyChanged("Patients");
                 }
                 catch (Exception e )

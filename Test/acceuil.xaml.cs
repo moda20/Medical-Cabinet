@@ -116,6 +116,11 @@ namespace Test
             {
                 e.Column.Header = "File Id";
             }
+            else if (headername == "ConsultationSets")
+            {
+                e.Column.Header = "Consultations";
+                e.Cancel = true;
+            }
 
         }
 

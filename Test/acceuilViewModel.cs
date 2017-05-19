@@ -104,9 +104,11 @@ namespace Test
             if (SearchDate != null || searChkey != null)
             {
                 List<PatientSet> UList = new List<PatientSet>();
-                Patients = ctx.PatientSets.Where(u => u.LastVisit > SearchDate || u.FirstName == searChkey).ToList();
+                MessageBox.Show(SearchDate1.ToString());
+                Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate || u.FirstName == searChkey).ToList();
                 List<FileSet> Listf = new List<FileSet>();
                 Files = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
+                RaisePropertyChanged("Patients");
                 MessageBox.Show("Number of files found" +Files.Count+"  Number of Patients : "+Patients.Count  );
 
             }
