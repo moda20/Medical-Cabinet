@@ -6,7 +6,8 @@
         <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="423" Margin="-1,0,0,0">
             <MenuItem Header="Home" Click="MenuItem_Click"/>
             <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
-            <MenuItem Header="Patients" Click="MenuItem_Click_1"/>
+            <MenuItem Visibility="{Binding IsDoctor}" Header="Patients" Click="MenuItem_Click_1"/>
+            <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser"/>
         </Menu>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="66" Margin="0,54,0,0" Stroke="Black" VerticalAlignment="Top" Width="423"/>
         <Label Content="File List" HorizontalAlignment="Left" Margin="125,68,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Tekton Pro" Width="212">

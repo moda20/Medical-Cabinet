@@ -23,8 +23,8 @@
         <Menu HorizontalAlignment="Left" Height="33" VerticalAlignment="Top" Width="450" Grid.ColumnSpan="6">
             <MenuItem Header="Files" Click="MenuItem_Click"/>
             <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
-            <MenuItem Header="Patients" Click="MenuItem_Click_1"/>
-            <MenuItem Header="City/User" Click="MenuItem_Click_3"/>
+            <MenuItem Visibility="{Binding IsDoctor}" Header="Patients" Click="MenuItem_Click_1"/>
+            <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser" Click="MenuItem_Click_3"/>
         </Menu>
         <StatusBar HorizontalAlignment="Left" Height="30" Margin="0,584,0,0" VerticalAlignment="Top" Width="450" Grid.ColumnSpan="6">
             <Button Content="Print" Width="75"/>

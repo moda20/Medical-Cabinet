@@ -13,7 +13,7 @@ namespace Test
     class UserCityModelView : ViewModelBase
     {
 
-        public UserCityModelView()
+        public UserCityModelView(int X)
         {
             ADDNEWCITY = new RelayCommand(addCity);
             MODIFYCITY = new RelayCommand(modifyCity);
@@ -23,6 +23,13 @@ namespace Test
             ADDNEWUSER = new RelayCommand(newUSer);
             MODIFYUSER = new RelayCommand(modifyUser);
             DELETEUSER = new RelayCommand(deleteUser);
+            switch (X)
+            {
+                case 2: IsSec = "Visible"; break;
+                case 4: IsDoctor = "Visible"; IsSec = "Visible"; break;
+                case 3: IsPatient = "Visible"; break;
+                default: IsAdmin = "Visible"; IsDoctor = "Visible"; IsSec = "Visible"; break;
+            }
         }
 
         private List<CitySet> Cities;
@@ -82,6 +89,63 @@ namespace Test
                 RaisePropertyChanged("SelectedCity1");
             }
         }
+
+        private String isDoctor = "Hidden";
+        private String isSec = "Hidden";
+        private String isAdmin = "Hidden";
+        private String isPatient = "Hidden";
+        public string IsDoctor
+        {
+            get
+            {
+                return isDoctor;
+            }
+
+            set
+            {
+                isDoctor = value;
+            }
+        }
+
+        public string IsSec
+        {
+            get
+            {
+                return isSec;
+            }
+
+            set
+            {
+                isSec = value;
+            }
+        }
+
+        public string IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+            }
+        }
+
+        public string IsPatient
+        {
+            get
+            {
+                return isPatient;
+            }
+
+            set
+            {
+                isPatient = value;
+            }
+        }
+
 
         public UserSet SelectedUser1
         {

@@ -14,13 +14,20 @@ namespace Test
     public class NewPatientsModelView : ViewModelBase
     {
 
-        public NewPatientsModelView()
+        public NewPatientsModelView(int X)
         {
             ADDNEW = new RelayCommand(NewPatient);
             MODIFY = new RelayCommand(modifyPatient);
             DELETE = new RelayCommand(deletePatient);
             EMPTY = new RelayCommand(emptyPatient);
             SEARCH = new RelayCommand(Searching);
+            switch (X)
+            {
+                case 2: IsSec = "Visible"; break;
+                case 4: IsDoctor = "Visible"; IsSec = "Visible"; break;
+                case 3: IsPatient = "Visible"; break;
+                default: IsAdmin = "Visible"; IsDoctor = "Visible"; IsSec = "Visible"; break;
+            }
         }
 
 
@@ -44,10 +51,17 @@ namespace Test
         {
             get
             {
-                List<PatientSet> UList = new List<PatientSet>();
-                UList = ctx.PatientSets.ToList();
-                _Patients = UList;
-                return _Patients;
+                if (_Patients !=null)
+                {
+                    return _Patients;
+                }
+                else
+                {
+                    List<PatientSet> UList = new List<PatientSet>();
+                    UList = ctx.PatientSets.ToList();
+                    _Patients = UList;
+                    return _Patients;
+                }
 
             }
             set
@@ -57,6 +71,63 @@ namespace Test
             }
         }
 
+        private String isDoctor = "Hidden";
+        private String isSec = "Hidden";
+        private String isAdmin = "Hidden";
+        private String isPatient = "Hidden";
+        public string IsDoctor
+        {
+            get
+            {
+                return isDoctor;
+            }
+
+            set
+            {
+                isDoctor = value;
+            }
+        }
+
+        public string IsSec
+        {
+            get
+            {
+                return isSec;
+            }
+
+            set
+            {
+                isSec = value;
+            }
+        }
+
+        public string IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+            }
+        }
+
+        public string IsPatient
+        {
+            get
+            {
+                return isPatient;
+            }
+
+            set
+            {
+                isPatient = value;
+            }
+        }
+
+
 
         private List<FileSet> _Files;
 
@@ -64,10 +135,17 @@ namespace Test
         {
             get
             {
-                List<FileSet> Listf = new List<FileSet>();
-                Listf = ctx.FileSets.ToList();
-                _Files = Listf;
-                return _Files;
+                if (_Files != null)
+                {
+                    return _Files;
+                }
+                else
+                {
+                    List<FileSet> Listf = new List<FileSet>();
+                    Listf = ctx.FileSets.ToList();
+                    _Files = Listf;
+                    return _Files;
+                }
 
             }
             set
@@ -315,8 +393,8 @@ namespace Test
             {
                 try
                 {
-                    MessageBox.Show(SearchDate1.ToString());
-                    Patients=ctx.PatientSets.Where(u => u.LastVisit == SearchDate1).ToList();
+                   
+                    Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate1).ToList();
                     RaisePropertyChanged("Patients");
                 }
                 catch (Exception e )

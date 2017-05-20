@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:Test"
         xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="Test.NewPatients"
         mc:Ignorable="d"
-        Title="New Patients" Height="1225.589" Width="423.496" Custom:ControlsHelper.ContentCharacterCasing="Upper">
+        Title="New Patients" Height="709.589" Width="663.496" Custom:ControlsHelper.ContentCharacterCasing="Upper">
     <Grid Margin="0,0,2,1">
-        <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="413">
+        <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="653">
             <MenuItem Header="Home" Click="MenuItem_Click"/>
             <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
             <MenuItem Header="Files" Click="MenuItem_Click_1"/>
+            <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser"/>
         </Menu>
         <Label Content="New Patients" HorizontalAlignment="Left" Margin="140,30,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Tekton Pro" Width="212">
             <Label.Foreground>
@@ -22,23 +23,23 @@
             </Label.Foreground>
         </Label>
         <Image HorizontalAlignment="Left" Height="34" Margin="59,32,0,0" VerticalAlignment="Top" Width="61" Source="images/téléchargement.jpg"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="307" Margin="10,74,0,0" Stroke="Black" VerticalAlignment="Top" Width="238"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="307" Margin="10,74,0,0" Stroke="Black" VerticalAlignment="Top" Width="434"/>
         <Label x:Name="date" Content="Name" HorizontalAlignment="Left" Margin="24,85,0,0" VerticalAlignment="Top"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="256,76,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
-        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="291,103,0,0" Width="75" Height="20" VerticalAlignment="Top"/>
-        <Button  Command ="{Binding MODIFY}" Content="Modify" HorizontalAlignment="Left" Margin="291,139,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Delete" Command ="{Binding DELETE}" HorizontalAlignment="Left" Margin="291,176,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="291,212,0,0" VerticalAlignment="Top" Width="75"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="307" Margin="463,74,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
+        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="501,122,0,0" Width="75" Height="20" VerticalAlignment="Top"/>
+        <Button  Command ="{Binding MODIFY}" Content="Modify" HorizontalAlignment="Left" Margin="501,161,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Delete" Command ="{Binding DELETE}" HorizontalAlignment="Left" Margin="501,197,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="501,235,0,0" VerticalAlignment="Top" Width="75"/>
         <Label HorizontalAlignment="Left" Margin="24,212,0,0" VerticalAlignment="Top"/>
         <Label Content="BirthDate" HorizontalAlignment="Left" Margin="25,152,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="PDateOfBirth" SelectedDate="{Binding PDateOfBirth1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="120,154,0,0" VerticalAlignment="Top" Width="120"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="8,458,0,0" Stroke="Black" Width="398" Height="197" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="8,458,0,0" Stroke="Black" Width="604" Height="197" VerticalAlignment="Top"/>
         <Grid HorizontalAlignment="Left" Height="49" Margin="25,381,0,0" VerticalAlignment="Top" Width="367" Background="#FFFBFBFB">
             <Label Content="Search by Last Visit" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top"/>
             <Button Command="{Binding SEARCH}" Content="Search" HorizontalAlignment="Left" Margin="282,15,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <ListView SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="31,481,0,0" Width="357" DisplayMemberPath="FirstName" Height="152" VerticalAlignment="Top" />
+        <ListView SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="31,481,0,0" Width="569" DisplayMemberPath="FirstName" Height="152" VerticalAlignment="Top" />
         <Label x:Name="date_Copy" Content="Last Name" HorizontalAlignment="Left" Margin="24,116,0,0" VerticalAlignment="Top"/>
         <Label x:Name="date_Copy1" Content="Occupation" HorizontalAlignment="Left" Margin="23,186,0,0" VerticalAlignment="Top"/>
         <Label x:Name="date_Copy2" Content="Last Visit" HorizontalAlignment="Left" Margin="25,217,0,0" VerticalAlignment="Top"/>

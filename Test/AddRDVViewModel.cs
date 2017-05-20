@@ -12,9 +12,16 @@ namespace Test
     class AddRDVViewModel : ViewModelBase
     {
         HealthCareEntities3 ctx = new HealthCareEntities3();
-        public AddRDVViewModel()
+        public AddRDVViewModel(int X)
         {
             ADDRDV = new RelayCommand(NewRDV);
+            switch (X)
+            {
+                case 2: IsSec = "Visible"; break;
+                case 4: IsDoctor = "Visible"; IsSec = "Visible"; break;
+                case 3: IsPatient = "Visible"; break;
+                default: IsAdmin = "Visible"; IsDoctor = "Visible"; IsSec = "Visible"; break;
+            }
         }
 
         private List<PatientSet> _Patients;
@@ -38,6 +45,62 @@ namespace Test
         private PatientSet SelectedPatient;
         private DateTime RDVdate;
         private String State;
+
+        private String isDoctor = "Hidden";
+        private String isSec = "Hidden";
+        private String isAdmin = "Hidden";
+        private String isPatient = "Hidden";
+        public string IsDoctor
+        {
+            get
+            {
+                return isDoctor;
+            }
+
+            set
+            {
+                isDoctor = value;
+            }
+        }
+
+        public string IsSec
+        {
+            get
+            {
+                return isSec;
+            }
+
+            set
+            {
+                isSec = value;
+            }
+        }
+
+        public string IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+            }
+        }
+
+        public string IsPatient
+        {
+            get
+            {
+                return isPatient;
+            }
+
+            set
+            {
+                isPatient = value;
+            }
+        }
 
         public PatientSet SelectedPatient1
         {

@@ -19,10 +19,12 @@ namespace Test
     /// </summary>
     public partial class UserCity : Window
     {
-        public UserCity()
+        public int Role;
+        public UserCity(int X)
         {
+            Role = X;
             InitializeComponent();
-            var ViewModel = new UserCityModelView();
+            var ViewModel = new UserCityModelView(X);
             DataContext = ViewModel;
         }
 
@@ -33,7 +35,7 @@ namespace Test
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            acceuil X = new acceuil(2);
+            acceuil X = new acceuil(Role);
             X.Show();
             this.Close();
         }

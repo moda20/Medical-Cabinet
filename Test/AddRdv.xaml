@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test"
         mc:Ignorable="d"
-        Title="AddRdv" Height="300" Width="300">
+        Title="AddRdv" Height="298.872" Width="607.895">
     <Grid>
         <Menu x:Name="menu" Background="#FFFFEAEA" Margin="0,0,0,239">
-            <MenuItem Header="Patients" RenderTransformOrigin="0.5,0.5" Width="60">
+            
+            <MenuItem  Visibility="{Binding IsDoctor}" Header="Patients" RenderTransformOrigin="0.5,0.5" Width="60">
                 <MenuItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -20,9 +21,11 @@
             </MenuItem>
             <MenuItem Header="Consultations"/>
             <MenuItem Header="Fiches"/>
+            <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser"/>
+
         </Menu>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="39" Margin="10,51,0,0" Stroke="Black" VerticalAlignment="Top" Width="272"/>
-        <Label x:Name="label" Content="Add RDV" HorizontalAlignment="Left" Margin="97,51,0,0" VerticalAlignment="Top" Background="Transparent" FontWeight="Bold" FontSize="18.667">
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="39" Margin="10,51,0,0" Stroke="Black" VerticalAlignment="Top" Width="569"/>
+        <Label x:Name="label" Content="Add RDV" HorizontalAlignment="Left" Margin="237,55,0,0" VerticalAlignment="Top" Background="Transparent" FontWeight="Bold" FontSize="18.667" RenderTransformOrigin="2.286,0.8">
             <Label.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -30,17 +33,17 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="131" Margin="10,95,0,0" Stroke="Black" VerticalAlignment="Top" Width="272"/>
-        <ComboBox SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" x:Name="cboPatient" HorizontalAlignment="Left" Margin="111,114,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="FirstName"/>
-        <Label x:Name="date" Content="Patient :" HorizontalAlignment="Left" Margin="48,110,0,0" VerticalAlignment="Top"/>
-        <Label Content="Date :" HorizontalAlignment="Left" Margin="48,151,0,0" VerticalAlignment="Top"/>
-        <DatePicker SelectedDate="{Binding RDVdate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,151,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox SelectedItem="{Binding State1}" x:Name="cboState" HorizontalAlignment="Left" Margin="111,190,0,0" VerticalAlignment="Top" Width="120"  Background="Black">
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="131" Margin="10,95,0,0" Stroke="Black" VerticalAlignment="Top" Width="569"/>
+        <ComboBox SelectedItem="{Binding SelectedPatient1, Mode=TwoWay}" ItemsSource="{Binding Patients, Mode=TwoWay}" x:Name="cboPatient" HorizontalAlignment="Left" Margin="207,110,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="FirstName"/>
+        <Label x:Name="date" Content="Patient :" HorizontalAlignment="Left" Margin="128,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="Date :" HorizontalAlignment="Left" Margin="128,141,0,0" VerticalAlignment="Top"/>
+        <DatePicker SelectedDate="{Binding RDVdate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="207,151,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox SelectedItem="{Binding State1}" x:Name="cboState" HorizontalAlignment="Left" Margin="207,186,0,0" VerticalAlignment="Top" Width="120"  Background="Black">
             <ComboBoxItem Content="Approved"/>
         </ComboBox>
-        <Label x:Name="date_Copy" Content="State :" HorizontalAlignment="Left" Margin="48,190,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="date_Copy" Content="State :" HorizontalAlignment="Left" Margin="127,182,0,0" VerticalAlignment="Top"/>
         <Label Content="" HorizontalAlignment="Left" Margin="2,186,0,0" VerticalAlignment="Top"/>
-        <StatusBar HorizontalAlignment="Left" Height="33" Margin="0,236,0,0" VerticalAlignment="Top" Width="292">
+        <StatusBar HorizontalAlignment="Left" Height="33" Margin="0,236,0,-1" VerticalAlignment="Top" Width="600">
             <Button Command="{Binding ADDRDV}" x:Name="bnt_save" Content="Add RDV" Width="75"/>
             <Button x:Name="btn_cancel" Content="Cancel" Width="75" Click="btn_cancel_Click"/>
         </StatusBar>

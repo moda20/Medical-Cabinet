@@ -19,10 +19,12 @@ namespace Test
     /// </summary>
     public partial class rdv : Window
     {
-        public rdv()
+        public int Role;
+        public rdv( int X)
         {
+            Role = X;
             InitializeComponent();
-            var ViewModel = new RDVWiewModel();
+            var ViewModel = new RDVWiewModel(X);
             DataContext = ViewModel;
         }
 
@@ -30,13 +32,13 @@ namespace Test
         {
 
             
-            AddRdv rdv_add = new AddRdv();
+            AddRdv rdv_add = new AddRdv(Role);
             rdv_add.ShowDialog();
 
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            NewPatients x = new NewPatients();
+            NewPatients x = new NewPatients(Role);
             x.Show();
             this.Close();
         }
@@ -44,7 +46,7 @@ namespace Test
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            NewPatients x = new NewPatients();
+            NewPatients x = new NewPatients(Role);
             x.Show();
             
         }
@@ -56,14 +58,14 @@ namespace Test
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            Consultation X = new Consultation();
+            Consultation X = new Consultation(Role);
             X.Show();
             this.Close();
         }
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
-             fiches X = new fiches();
+             fiches X = new fiches(Role);
             X.Show();
             this.Close();
         }

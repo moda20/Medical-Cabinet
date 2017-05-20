@@ -14,11 +14,19 @@ namespace Test
     {
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
-
+        
         public acceuilViewModel(int X)
         {
             ProfilePassed1 = UTOS(X);
             Searching = new RelayCommand(Search);
+
+            switch (X)
+            {
+                case 2: IsSec = "Visible"; break;
+                case 4: IsDoctor = "Visible"; IsSec = "Visible"; break;
+                case 3: IsPatient = "Visible"; break;
+                default: IsAdmin = "Visible"; IsDoctor = "Visible"; IsSec = "Visible"; break;  
+            }
         }
         public String UTOS(int x)
         {
@@ -31,21 +39,25 @@ namespace Test
                 default: return "admin";
 
             }
-
-
+           
         }
         private String ProfilePassed;
-       
-        private List<PatientSet> _Patients;
-
+        public List<PatientSet> _Patients;
         public List<PatientSet> Patients
         {
             get
             {
-                List<PatientSet> UList = new List<PatientSet>();
-                UList = ctx.PatientSets.ToList();
-                _Patients = UList;
-                return _Patients;
+                if (_Patients != null)
+                {
+                    return _Patients;
+                }
+                else
+                {
+                    List<PatientSet> UList = new List<PatientSet>();
+                    UList = ctx.PatientSets.ToList();
+                    _Patients = UList;
+                    return _Patients;
+                }
 
             }
             set
@@ -62,17 +74,23 @@ namespace Test
         {
             get
             {
-                List<FileSet> Listf = new List<FileSet>();
-                Listf = ctx.FileSets.ToList();
-                _Files = Listf;
-                return _Files;
+                if (_Files != null)
+                {
+                    return _Files;
+                }
+                else
+                {
+                    List<FileSet> Listf = new List<FileSet>();
+                    Listf = ctx.FileSets.ToList();
+                    _Files = Listf;
+                    return _Files;
+                }
 
             }
             set
             {
                 _Files = value;
                 RaisePropertyChanged("Files");
-                
             }
         }
         private DateTime SearchDate = DateTime.Today;
@@ -98,18 +116,72 @@ namespace Test
                 ProfilePassed = value;
             }
         }
+        private String isDoctor="Hidden";
+        private String isSec = "Hidden";
+        private String isAdmin = "Hidden";
+        private String isPatient = "Hidden";
+        public string IsDoctor
+        {
+            get
+            {
+                return isDoctor;
+            }
+
+            set
+            {
+                isDoctor = value;
+            }
+        }
+
+        public string IsSec
+        {
+            get
+            {
+                return isSec;
+            }
+
+            set
+            {
+                isSec = value;
+            }
+        }
+
+        public string IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+            }
+        }
+
+        public string IsPatient
+        {
+            get
+            {
+                return isPatient;
+            }
+
+            set
+            {
+                isPatient = value;
+            }
+        }
 
         public void Search()
         {
             if (SearchDate != null || searChkey != null)
             {
-                List<PatientSet> UList = new List<PatientSet>();
-                MessageBox.Show(SearchDate1.ToString());
+                
                 Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate || u.FirstName == searChkey).ToList();
                 List<FileSet> Listf = new List<FileSet>();
                 Files = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
-                RaisePropertyChanged("Patients");
-                MessageBox.Show("Number of files found" +Files.Count+"  Number of Patients : "+Patients.Count  );
+                RaisePropertyChanged("Patients"); RaisePropertyChanged("Files");
+                MessageBox.Show("Number of files found : " +Files.Count+" /  Number of Patients : "+Patients.Count,"Search Results");
 
             }
         }

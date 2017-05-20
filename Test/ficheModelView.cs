@@ -13,12 +13,19 @@ namespace Test
     class ficheModelView : ViewModelBase
     {
 
-        public ficheModelView()
+        public ficheModelView(int X)
         {
             Searching = new RelayCommand(Search);
             ADDNEW = new RelayCommand(newFile);
             MODIFY = new RelayCommand(updateFile);
             DELETE = new RelayCommand(deleteFile);
+            switch (X)
+            {
+                case 2: IsSec = "Visible"; break;
+                case 4: IsDoctor = "Visible"; IsSec = "Visible"; break;
+                case 3: IsPatient = "Visible"; break;
+                default: IsAdmin = "Visible"; IsDoctor = "Visible"; IsSec = "Visible"; break;
+            }
 
         }
 
@@ -27,41 +34,115 @@ namespace Test
 
         private DateTime SearchDate;
         private string searChkey;
+        public List<PatientSet> _Patients;
+        public List<PatientSet> Patients
+        {
+            get
+            {
+                if (_Patients != null)
+                {
+                    return _Patients;
+                }
+                else
+                {
+                    List<PatientSet> UList = new List<PatientSet>();
+                    UList = ctx.PatientSets.ToList();
+                    _Patients = UList;
+                    return _Patients;
+                }
+
+            }
+            set
+            {
+                _Patients = value;
+                RaisePropertyChanged("Patients");
+            }
+        }
+
+
         private List<FileSet> _Files;
 
         public List<FileSet> Files
         {
             get
             {
-                List<FileSet> Listf = new List<FileSet>();
-                Listf = ctx.FileSets.ToList();
-                _Files = Listf;
-                return _Files;
+                if (_Files != null)
+                {
+                    return _Files;
+                }
+                else
+                {
+                    List<FileSet> Listf = new List<FileSet>();
+                    Listf = ctx.FileSets.ToList();
+                    _Files = Listf;
+                    return _Files;
+                }
 
             }
             set
             {
                 _Files = value;
+                RaisePropertyChanged("Files");
             }
         }
 
-        private List<PatientSet> _Patients;
 
-        public List<PatientSet> Patients
+        private String isDoctor = "Hidden";
+        private String isSec = "Hidden";
+        private String isAdmin = "Hidden";
+        private String isPatient = "Hidden";
+        public string IsDoctor
         {
             get
             {
-                List<PatientSet> UList = new List<PatientSet>();
-                UList = ctx.PatientSets.Where(u =>  u.FileSet == null).ToList();
-                _Patients = UList;
-                return _Patients;
-
+                return isDoctor;
             }
+
             set
             {
-                _Patients = value;
+                isDoctor = value;
             }
         }
+
+        public string IsSec
+        {
+            get
+            {
+                return isSec;
+            }
+
+            set
+            {
+                isSec = value;
+            }
+        }
+
+        public string IsAdmin
+        {
+            get
+            {
+                return isAdmin;
+            }
+
+            set
+            {
+                isAdmin = value;
+            }
+        }
+
+        public string IsPatient
+        {
+            get
+            {
+                return isPatient;
+            }
+
+            set
+            {
+                isPatient = value;
+            }
+        }
+
 
         private FileSet selectedFile;
 

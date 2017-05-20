@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test"
         mc:Ignorable="d"
-        Title="Consultation" Height="648.496" Width="430.827">
+        Title="Consultation" Height="648.496" Width="615.327">
     <Grid>
-        <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="423" Margin="-1,0,0,0">
+        <Menu HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="608" Margin="-1,0,0,0">
             <MenuItem Header="Home" Click="MenuItem_Click"/>
             <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
-            <MenuItem Header="Patients" Click="MenuItem_Click_1"/>
+            <MenuItem Visibility="{Binding IsDoctor}" Header="Patients" Click="MenuItem_Click_1"/>
+            <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser"/>
         </Menu>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="66" Margin="0,54,0,0" Stroke="Black" VerticalAlignment="Top" Width="423"/>
-        <Label Content="Consultations" HorizontalAlignment="Left" Margin="125,68,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Tekton Pro" Width="212">
+        <Rectangle Fill="#FFE4ECB7" HorizontalAlignment="Left" Height="66" Margin="0,54,0,0" Stroke="Black" VerticalAlignment="Top" Width="607"/>
+        <Label Content="Consultations" HorizontalAlignment="Left" Margin="242,68,0,0" VerticalAlignment="Top" FontSize="22" FontFamily="Tekton Pro" Width="212">
             <Label.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -21,21 +22,21 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Image HorizontalAlignment="Left" Height="34" Margin="86,68,0,0" VerticalAlignment="Top" Width="61" Source="images/téléchargement.jpg"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="10,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="238"/>
+        <Image HorizontalAlignment="Left" Height="34" Margin="196,68,0,0" VerticalAlignment="Top" Width="61" Source="images/téléchargement.jpg"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="24,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="298"/>
         <ComboBox ItemsSource="{Binding Files, Mode=TwoWay}" SelectedItem="{Binding SelectedFile1, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="87,149,0,0" VerticalAlignment="Top" Width="120" DisplayMemberPath="Id"/>
         <Label x:Name="date" Content="File :" HorizontalAlignment="Left" Margin="34,149,0,0" VerticalAlignment="Top"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="264,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
-        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="299,164,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Modify" Command="{Binding MODIFY}" HorizontalAlignment="Left" Margin="299,201,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Delete" Command="{Binding DELETE}" HorizontalAlignment="Left" Margin="299,237,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="299,273,0,0" VerticalAlignment="Top" Width="75"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="183" Margin="352,137,0,0" Stroke="Black" VerticalAlignment="Top" Width="149"/>
+        <Button Command="{Binding ADDNEW}" Content="New" HorizontalAlignment="Left" Margin="392,152,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Modify" Command="{Binding MODIFY}" HorizontalAlignment="Left" Margin="392,192,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Delete" Command="{Binding DELETE}" HorizontalAlignment="Left" Margin="392,231,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Empty" Command="{Binding EMPTY}" HorizontalAlignment="Left" Margin="392,270,0,0" VerticalAlignment="Top" Width="75"/>
         <Label HorizontalAlignment="Left" Margin="24,212,0,0" VerticalAlignment="Top"/>
         <Label Content="Date :" HorizontalAlignment="Left" Margin="31,186,0,0" VerticalAlignment="Top"/>
         <DatePicker SelectedDate="{Binding CtDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="87,184,0,0" VerticalAlignment="Top" Width="120"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="281" Margin="10,333,0,0" Stroke="Black" VerticalAlignment="Top" Width="412"/>
+        <Rectangle Fill="#FFC6C6FF" HorizontalAlignment="Left" Height="281" Margin="10,333,0,0" Stroke="Black" VerticalAlignment="Top" Width="587"/>
         <Grid HorizontalAlignment="Left" Height="86" Margin="24,433,0,0" VerticalAlignment="Top" Width="367"/>
-        <Grid HorizontalAlignment="Left" Height="48" Margin="34,347,0,0" VerticalAlignment="Top" Width="367" Background="#FFFBFBFB">
+        <Grid HorizontalAlignment="Left" Height="48" Margin="34,352,0,0" VerticalAlignment="Top" Width="546" Background="#FFFBFBFB">
             <Grid.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -44,9 +45,9 @@
             </Grid.OpacityMask>
             <Label Content="Search By Date" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
             <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="129,11,0,0" VerticalAlignment="Top"/>
-            <Button Command="{Binding SEARCH}" Content="Search" HorizontalAlignment="Left" Margin="268,11,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Command="{Binding SEARCH}" Content="Search" HorizontalAlignment="Left" Margin="461,16,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <DataGrid  SelectedItem="{Binding SelectedConsultation1, Mode=TwoWay}" ItemsSource="{Binding Consultations1 , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="dataGridConsultation" HorizontalAlignment="Left" Margin="34,400,0,0" VerticalAlignment="Top" Height="184" Width="367"/>
+        <DataGrid  SelectedItem="{Binding SelectedConsultation1, Mode=TwoWay}" ItemsSource="{Binding Consultations1 , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="dataGridConsultation" HorizontalAlignment="Left" Margin="34,400,0,0" VerticalAlignment="Top" Height="184" Width="546"/>
         <TextBox Text="{Binding Act1, Mode=TwoWay}" x:Name="POccupation" HorizontalAlignment="Left" Height="26" Margin="87,231,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <TextBox Text="{Binding  Cost1, Mode=TwoWay}" x:Name="POccupation_Copy" HorizontalAlignment="Left" Height="23" Margin="87,270,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <Label Content="Act :" HorizontalAlignment="Left" Margin="31,231,0,0" VerticalAlignment="Top"/>

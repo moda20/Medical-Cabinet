@@ -19,30 +19,32 @@ namespace Test
     /// </summary>
     public partial class fiches : Window
     {
-        public fiches()
+        public int Role;
+        public fiches(int X)
         {
+            Role = X;
             InitializeComponent();
-            var ViewModel = new ficheModelView();
+            var ViewModel = new ficheModelView(X);
             DataContext = ViewModel;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            acceuil x = new acceuil(2);
+            acceuil x = new acceuil(Role);
             x.Show();
             this.Close();
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
-            rdv x = new rdv();
+            rdv x = new rdv(Role);
             x.Show();
             this.Close();
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            NewPatients x = new NewPatients();
+            NewPatients x = new NewPatients(Role);
             x.Show();
             this.Close();
         }

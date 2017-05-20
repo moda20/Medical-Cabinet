@@ -19,8 +19,10 @@ namespace Test
     /// </summary>
     public partial class acceuil : Window
     {
+        public int Role;
         public acceuil(int X)
         {
+            Role = X;
             InitializeComponent();
             var ViewModel = new acceuilViewModel(X);
             DataContext = ViewModel;
@@ -28,14 +30,14 @@ namespace Test
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            fiches X =new fiches();
+            fiches X =new fiches(Role);
             X.Show();
             this.Close();
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            NewPatients X = new NewPatients();
+            NewPatients X = new NewPatients(Role);
             X.Show();
             this.Close();
         }
@@ -127,14 +129,14 @@ namespace Test
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             this.Close();
-            rdv rdv = new rdv();
+            rdv rdv = new rdv(Role);
             rdv.ShowDialog();
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             this.Close();
-            UserCity x = new UserCity();
+            UserCity x = new UserCity(Role);
             x.Show();
         }
     }

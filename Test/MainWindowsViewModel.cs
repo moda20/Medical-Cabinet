@@ -57,6 +57,21 @@ namespace Test
         }
         public RelayCommand Connect { private set; get; }
 
+
+        public int Roles(UserSet u)
+        {
+            switch (u.profile)
+            {
+
+                case 1: return 1;
+                case 2: return 2;
+                case 3: return 3;
+                default: return 4;
+
+            }
+
+        }
+
         public void connect()
         {
 
@@ -67,11 +82,13 @@ namespace Test
                 USER = ctx.UserSets.SingleOrDefault(u => u.login == name);
                 if(USER != null)
                 {
-                    if (USER.password == pass)
+                    if (USER.password == pass && ( Roles(USER)==1 || Roles(USER) == 2 || Roles(USER) == 3))
                     {
+                        
                         MessageBox.Show("Connected");
                         acceuil acceuil = new acceuil(USER.profile);
                         acceuil.Show();
+  
                         this.Close();
                     }
                     else

@@ -19,10 +19,12 @@ namespace Test
     /// </summary>
     public partial class AddRdv : Window
     {
-        public AddRdv()
+        public int Role;
+        public AddRdv(int X)
         {
+            Role = X;
             InitializeComponent();
-            var ViewModel = new AddRDVViewModel();
+            var ViewModel = new AddRDVViewModel(X);
             DataContext = ViewModel;
         }
 
