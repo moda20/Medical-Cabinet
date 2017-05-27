@@ -1,52 +1,77 @@
-﻿<Window x:Class="Test.acceuil"
+﻿<Controls:MetroWindow x:Class="Test.acceuil"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Home" Height="648.283" Width="461.313">
+        Title="Home" Height="676.283" Width="461.313"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="Disconnect" Command="{Binding Disconnect}"/>
+            <Button>
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="{Binding Today1}" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Image HorizontalAlignment="Left" Height="91" Margin="149,80,0,0" VerticalAlignment="Top" Width="116" Source="images/images.png"/>
+        <Image Height="91" Margin="149,80,188,0" VerticalAlignment="Top" Source="images/images.png"/>
 
-       
 
-        <TabControl HorizontalAlignment="Left" Margin="2,345,0,35" Width="440">
+
+        <TabControl Margin="2,345,11,35">
             <TabItem Header="Patients">
                 <Grid Background="#FFE5E5E5" Margin="0,-2,0,2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="13*"/>
+                        <RowDefinition Height="51*"/>
+                    </Grid.RowDefinitions>
 
-                    <DataGrid ItemsSource="{Binding Patients, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="195" Width="414" AutoGeneratingColumn="DG1_AutoGeneratingColumn"/>
+                    <DataGrid ItemsSource="{Binding Patients, Mode=TwoWay}" Margin="10,10,10,0" AutoGeneratingColumn="DG1_AutoGeneratingColumn" Height="172" VerticalAlignment="Top" Grid.RowSpan="2" 
+                              />
                 </Grid>
             </TabItem>
             <TabItem Header="Files">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid ItemsSource="{Binding Files, Mode=TwoWay}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="195" Width="414" AutoGeneratingColumn="DG2_AutoGeneratingColumn"/>
+                    <DataGrid ItemsSource="{Binding Files, Mode=TwoWay}" Margin="10,10,10,-13" VerticalAlignment="Top" Height="195" AutoGeneratingColumn="DG2_AutoGeneratingColumn"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Menu HorizontalAlignment="Left" Height="33" VerticalAlignment="Top" Width="450" Grid.ColumnSpan="6">
-            <MenuItem Header="Files" Click="MenuItem_Click"/>
-            <MenuItem Header="RDV" Click="MenuItem_Click_2"/>
+        <Menu Height="33" VerticalAlignment="Top" Margin="0,0,3,0">
+            <MenuItem Visibility="{Binding IsAdmin}" Header="Files" Click="MenuItem_Click"/>
+            <MenuItem Visibility="{Binding IsSec}" Header="RDV" Click="MenuItem_Click_2"/>
             <MenuItem Visibility="{Binding IsDoctor}" Header="Patients" Click="MenuItem_Click_1"/>
             <MenuItem  Visibility="{Binding IsAdmin}"  Header="City/User" Name="Admin_Manage_CityUser" Click="MenuItem_Click_3"/>
         </Menu>
-        <StatusBar HorizontalAlignment="Left" Height="30" Margin="0,584,0,0" VerticalAlignment="Top" Width="450" Grid.ColumnSpan="6">
-            <Button Content="Print" Width="75"/>
-        </StatusBar>
-        <Grid HorizontalAlignment="Left" Height="164" Margin="2,176,0,0" VerticalAlignment="Top" Width="440" Background="#FFE2DCDC">
+        <Grid   Height="164" Margin="2,176,11,0" VerticalAlignment="Top" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="370*"/>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="17*"/>
             </Grid.ColumnDefinitions>
-            <Grid HorizontalAlignment="Left" Margin="10,14,0,10" Width="420" Background="#FFFFFCFC" Grid.ColumnSpan="3">
-                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="28" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="400"/>
+            <Grid Margin="0,14,0,10" Background="#FFFFFCFC" Grid.ColumnSpan="3">
+                <Rectangle Fill="#FFE5E5E5" Height="28" Margin="0,10,0,0"  VerticalAlignment="Top"/>
                 <Label Content="Search Criterias" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top"/>
-                <Rectangle Fill="#FFF4F4F5" Height="98" Margin="10,41,10,0" Stroke="Black" VerticalAlignment="Top"/>
+                <Rectangle Fill="#FFE5E5E5" Height="98" Margin="0,41,0,0"  VerticalAlignment="Top"/>
                 <Label Content="Date :" HorizontalAlignment="Left" Margin="19,53,0,0" VerticalAlignment="Top"/>
-                <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="60,53,0,0" VerticalAlignment="Top" Width="297" IsTodayHighlighted="True" />
-                <Button Command="{Binding Searching}" Content="Search" HorizontalAlignment="Left" Margin="330,110,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="60,82,0,0" TextWrapping="Wrap" Text="{Binding SearChkey, Mode=TwoWay}" VerticalAlignment="Top" Width="297"/>
+                <DatePicker SelectedDate="{Binding SearchDate1, Mode=TwoWay}" Margin="60,53,63,0" VerticalAlignment="Top" IsTodayHighlighted="True" />
+                <Button Style="{DynamicResource SquareButtonStyle}" Command="{Binding Searching}" Content="Search" Margin="345,109,10,0" VerticalAlignment="Top"/>
+                <TextBox Height="23" Margin="60,82,63,0" TextWrapping="Wrap" Text="{Binding SearChkey, Mode=TwoWay}" VerticalAlignment="Top"/>
+                <Button Command="{Binding Refresh}"
+                	Height="43"
+                	VerticalAlignment="Top"
+                	Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,99,0,-2" HorizontalAlignment="Left" Width="43">
+                    <Rectangle Height="16" Width="18">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource appbar_redo_curve}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
             </Grid>
             <Label Content="Name" HorizontalAlignment="Left" Margin="24,94,0,0" VerticalAlignment="Top" Width="46"/>
         </Grid>
-        <Calendar HorizontalAlignment="Left" Margin="303,55,0,0" VerticalAlignment="Top" Height="116" Width="127"/>
         <Label HorizontalAlignment="Left" Margin="118,33,0,0" VerticalAlignment="Top" Height="50" Width="147">
             <Label Content="Health   Care" FontSize="18" Height="52" FontWeight="Bold" Width="138" FontFamily="Viner Hand ITC">
                 <Label.Foreground>
@@ -57,7 +82,6 @@
                 </Label.Foreground>
             </Label>
         </Label>
-        <Label Content="Today :" HorizontalAlignment="Left" Margin="303,33,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Height="29" Width="57"/>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

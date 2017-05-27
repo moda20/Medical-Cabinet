@@ -8,19 +8,24 @@ using GalaSoft.MvvmLight;
 using System.Windows.Input;
 using System.Data.Entity.Validation;
 using System.Windows;
+using MahApps.Metro.Controls.Dialogs;
+using System.Globalization;
 
 namespace Test
 {
     public class NewPatientsModelView : ViewModelBase
     {
-
-        public NewPatientsModelView(int X)
+        
+        public NewPatientsModelView(int X, Window T)
         {
+            ThisWindow = T;
             ADDNEW = new RelayCommand(NewPatient);
             MODIFY = new RelayCommand(modifyPatient);
             DELETE = new RelayCommand(deletePatient);
             EMPTY = new RelayCommand(emptyPatient);
             SEARCH = new RelayCommand(Searching);
+            Disconnect = new RelayCommand(disconnect);
+            Refresh = new RelayCommand(REFRESH);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -33,15 +38,16 @@ namespace Test
 
         private String PName;
         private String PLastName;
-        private DateTime PDateOfBirth;
-        private DateTime PLASTVISIT;
+        private DateTime PDateOfBirth=DateTime.Today;
+        private DateTime PLASTVISIT = DateTime.Today;
         private String POccupation;
         private String PCellPhone;
         private String PAddress;
         private FileSet PFile;
         private CitySet PCity;
         private PatientSet SelectedPatient;
-        private DateTime SearchDate;
+        private DateTime SearchDate = DateTime.Today;
+        private Boolean X = false;
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
 
@@ -53,6 +59,7 @@ namespace Test
             {
                 if (_Patients !=null)
                 {
+                    
                     return _Patients;
                 }
                 else
@@ -142,7 +149,7 @@ namespace Test
                 else
                 {
                     List<FileSet> Listf = new List<FileSet>();
-                    Listf = ctx.FileSets.ToList();
+                    Listf = ctx.FileSets.Where(u =>u.PatientSet==null).ToList();
                     _Files = Listf;
                     return _Files;
                 }
@@ -209,12 +216,17 @@ namespace Test
                     PLastName1 = value.LastName;
                     PLASTVISIT1 = (DateTime)value.LastVisit;
                     PDateOfBirth1 = value.BirthDate;
+                    _Files = null;
+                    RaisePropertyChanged("Files");
+                    _Files.Add(value.FileSet);
+                    RaisePropertyChanged("Files");
                     PFile1 = value.FileSet;
                     PCity1 = value.CitySet;
                     PCellPhone1 = value.CellPhone;
                     PAddress1 = value.Address;
                     POccupation1 = value.Occupation;
                     PatientId1 = value.Id;
+                    
                 }
                 SelectedPatient = value;
                 RaisePropertyChanged("SelectedPatient1");
@@ -249,7 +261,7 @@ namespace Test
             user.CitySet = PCity1;
             user.FileSet = PFile1;
             user.LastVisit = PLASTVISIT1;
-            user.FileSet = null;
+            user.FileSet = PFile1;
 
 
             user.RDVSets = new List<RDVSet>(); 
@@ -267,6 +279,9 @@ namespace Test
                 {
                     ctx.PatientSets.Add(user);
                     ctx.SaveChanges();
+                    this.X = true;
+                    Searching();
+                    this.X = false;
                     MessageBox.Show("Patient Added");
                 }
                 catch (DbEntityValidationException e)
@@ -306,6 +321,9 @@ namespace Test
                 try
                 {
                     ctx.SaveChanges();
+                    this.X = true;
+                    Searching();
+                    this.X = false;
                 }
                 catch (Exception e)
                 {
@@ -339,6 +357,9 @@ namespace Test
                         ctx.RDVSets.RemoveRange(SelectedPatient1.RDVSets);
                         ctx.PatientSets.Remove(SelectedPatient);
                         ctx.SaveChanges();
+                        this.X = true;
+                        Searching();
+                        this.X = false;
                         RaisePropertyChanged("SelectedPatient1");
                         RaisePropertyChanged("Patients");
                         MessageBox.Show("Patient Deleted/ Patient's File Deleted");
@@ -371,6 +392,8 @@ namespace Test
             PAddress1 = null;
             POccupation1 = null;
             SelectedPatient = null;
+            _Files = null;
+            RaisePropertyChanged("Files");
             RaisePropertyChanged("SelectedPatient1");
         }
         public DateTime SearchDate1
@@ -389,18 +412,74 @@ namespace Test
         public RelayCommand SEARCH { private set; get; }
         public void Searching()
         {
-            if (SearchDate1 != null)
+            if (X == true)
             {
                 try
                 {
-                   
-                    Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate1).ToList();
+
+                    Patients = ctx.PatientSets.ToList();
                     RaisePropertyChanged("Patients");
                 }
-                catch (Exception e )
+                catch (Exception e)
                 {
-                    MessageBox.Show("Error in Database Connexion, Please Try again.",e.Message);
+                    MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
                 }
+            }
+            else
+            {
+                if (SearchDate1 != null)
+                {
+                    try
+                    {
+
+                        Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate1).ToList();
+                        RaisePropertyChanged("Patients");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                    }
+                }
+            }
+        }
+
+        public RelayCommand Refresh { get; set; }
+
+        public void REFRESH()
+        {
+            _Patients = ctx.PatientSets.ToList();
+            RaisePropertyChanged("Patients");
+        }
+
+
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
             }
         }
     }

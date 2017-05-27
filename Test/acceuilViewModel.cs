@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight;
 using System.Windows;
+using System.Globalization;
+using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Test 
 {
@@ -15,11 +18,14 @@ namespace Test
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
         
-        public acceuilViewModel(int X)
+        public Window ThisWindow ;
+        public acceuilViewModel(int X, Window T)
         {
+            ThisWindow = T;
             ProfilePassed1 = UTOS(X);
             Searching = new RelayCommand(Search);
-
+            Disconnect = new RelayCommand(disconnect);
+            Refresh = new RelayCommand(REFRESH);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -174,15 +180,52 @@ namespace Test
 
         public void Search()
         {
-            if (SearchDate != null || searChkey != null)
+            if (SearchDate1 != null || searChkey != null)
             {
                 
                 Patients = ctx.PatientSets.Where(u => u.LastVisit == SearchDate || u.FirstName == searChkey).ToList();
                 List<FileSet> Listf = new List<FileSet>();
-                Files = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
+                Files = ctx.FileSets.Where(u => u.CreationDate == SearchDate).ToList();
                 RaisePropertyChanged("Patients"); RaisePropertyChanged("Files");
-                MessageBox.Show("Number of files found : " +Files.Count+" /  Number of Patients : "+Patients.Count,"Search Results");
+                //MessageBox.Show("Number of files found : " +Files.Count+" /  Number of Patients : "+Patients.Count,"Search Results");
 
+            }
+        }
+        public RelayCommand Refresh { get; set; }
+
+        public void REFRESH()
+        {
+            _Patients = ctx.PatientSets.ToList();
+            _Files = ctx.FileSets.ToList();
+            RaisePropertyChanged("Files");
+            RaisePropertyChanged("Patients");
+        }
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public void disconnect() 
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected "," You were disconnected and sent back to login Window");
             }
         }
 

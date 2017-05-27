@@ -16,7 +16,7 @@ namespace Test
     {
         public int Id { get; set; }
         public System.DateTime date { get; set; }
-        public string state { get; set; }
+        public bool state { get; set; }
         public int Patient_Id { get; set; }
     }
 }

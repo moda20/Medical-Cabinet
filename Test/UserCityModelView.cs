@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +15,9 @@ namespace Test
     class UserCityModelView : ViewModelBase
     {
 
-        public UserCityModelView(int X)
+        public UserCityModelView(int X,Window T)
         {
+            ThisWindow = T;
             ADDNEWCITY = new RelayCommand(addCity);
             MODIFYCITY = new RelayCommand(modifyCity);
             DELETECITY = new RelayCommand(deleteCity);
@@ -23,6 +26,7 @@ namespace Test
             ADDNEWUSER = new RelayCommand(newUSer);
             MODIFYUSER = new RelayCommand(modifyUser);
             DELETEUSER = new RelayCommand(deleteUser);
+            Disconnect = new RelayCommand(disconnect);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -157,10 +161,13 @@ namespace Test
             set
             {
                 SelectedUser = value;
-                Login1 = value.login;
-                Pass1 = value.password;
-                Sadmin1 = value.IsSuperUser;
-                Profile1 = UTOS(value.profile);
+                if (value != null)
+                {
+                    Login1 = value.login;
+                    Pass1 = value.password;
+                    Sadmin1 = value.IsSuperUser;
+                    Profile1 = UTOS(value.profile);
+                }
                 RaisePropertyChanged("SelectedUser1");
             }
         }
@@ -250,18 +257,18 @@ namespace Test
                 {
                     ctx.CitySets.Add(city);
                     ctx.SaveChanges();
-                    MessageBox.Show("City Added");
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("City : " + CityName1, " Adding of new City was successful ");
                     RaisePropertyChanged("Cities1");
                 }
                 catch (Exception e)
                 {
 
-                    MessageBox.Show("Database Connection Error");
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("City : " + CityName1, " Error while adding a City ");
                 }
             }
             else
             {
-                MessageBox.Show("All Entries must be filled");
+                ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("Adding a new City ", "Please Verify that all entries were filled");
             }
         }
         public RelayCommand MODIFYCITY { private set; get; }
@@ -275,17 +282,17 @@ namespace Test
                 try
                 {
                     ctx.SaveChanges();
-                    MessageBox.Show("City with id : "+SelectedCity1.Id+" was Modified");
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("City : " + CityName1, " City details modified succesfully ");
                 }
                 catch (Exception e )
                 {
 
-                    MessageBox.Show("Error in Connecting to Database");
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("City : " + CityName1, " Error while modifying a City ");
                 }
             }
             else
             {
-                MessageBox.Show("Please Select a City to Modify");
+                ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("Modifying a  City ", "Please select a city to modify");
             }
         }
         public RelayCommand DELETECITY { private set; get; }
@@ -303,7 +310,7 @@ namespace Test
                 catch (Exception e )
                 {
 
-                    MessageBox.Show("DataBase Conection Problem");
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("City : " + CityName1, " Error while deleting a City ");
                 }
             }
         }
@@ -446,6 +453,37 @@ namespace Test
             Pass1 = null;
             Sadmin1 = false;
             Profile1 = UTOS(3);
+        }
+
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
+            }
         }
     }
 }

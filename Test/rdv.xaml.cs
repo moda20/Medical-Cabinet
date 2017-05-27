@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Interaction logic for rdv.xaml
     /// </summary>
-    public partial class rdv : Window
+    public partial class rdv : MetroWindow
     {
         public int Role;
         public rdv( int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new RDVWiewModel(X);
+            var ViewModel = new RDVWiewModel(X,Window.GetWindow(this));
             DataContext = ViewModel;
         }
 
@@ -120,13 +121,7 @@ namespace Test
             //}
 
             //update column details when generating
-            if (headername == "state")
-            {
-                e.Column.Header = "State";
-                
-                (e.Column as DataGridTextColumn).Binding = new Binding("state");
-            }
-            else if (headername == "CitySet")
+             if (headername == "CitySet")
             {
                 e.Column.Header = "City Name";
                 (e.Column as DataGridTextColumn).Binding = new Binding("CitySet.name");
@@ -148,6 +143,13 @@ namespace Test
 
             }
 
+        }
+
+        private void Home_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            acceuil x = new acceuil(Role);
+            x.Show();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class NewPatients : Window
+    public partial class NewPatients : MetroWindow
     {
         public int Role;
         public NewPatients(int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new NewPatientsModelView(X);
+            var ViewModel = new NewPatientsModelView(X,Window.GetWindow(this));
             DataContext = ViewModel;
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)

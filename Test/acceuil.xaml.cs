@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Logique d'interaction pour acceuil.xaml
     /// </summary>
-    public partial class acceuil : Window
+    public partial class acceuil : MetroWindow
     {
         public int Role;
         public acceuil(int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new acceuilViewModel(X);
+            var ViewModel = new acceuilViewModel(X, Window.GetWindow(this));
             DataContext = ViewModel;
         }
 
@@ -57,8 +58,8 @@ namespace Test
             if (headername == "FileSet")
             {
                 e.Column.Header = "File Id";
+                e.Cancel=true;
                 
-                (e.Column as DataGridTextColumn).Binding = new Binding("FileSet.Id");
             }
             else if (headername == "CitySet")
             {

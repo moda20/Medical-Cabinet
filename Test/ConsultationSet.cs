@@ -15,7 +15,7 @@ namespace Test
     public partial class ConsultationSet
     {
         public int Id { get; set; }
-        public string date { get; set; }
+        public System.DateTime date { get; set; }
         public string actNature { get; set; }
         public double cost { get; set; }
         public int FileId { get; set; }

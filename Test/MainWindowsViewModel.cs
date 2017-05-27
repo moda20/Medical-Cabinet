@@ -11,17 +11,21 @@ using System.Text.RegularExpressions;
 using System.Windows.Navigation;
 using System.Data.Entity.Validation;
 using System.Windows.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
+using System.Globalization;
 
 namespace Test
 {
-    class MainWindowsViewModel
+    class MainWindowsViewModel : MetroWindow
     {
 
-
-        public MainWindowsViewModel()
+        
+        public MainWindowsViewModel( Window x)
         {
-           
+            ThisWindow = x;
             Connect = new RelayCommand(connect);
+
 
         }
         HealthCareEntities3 ctx = new HealthCareEntities3();
@@ -84,12 +88,20 @@ namespace Test
                 {
                     if (USER.password == pass && ( Roles(USER)==1 || Roles(USER) == 2 || Roles(USER) == 3))
                     {
-                        
-                        MessageBox.Show("Connected");
                         acceuil acceuil = new acceuil(USER.profile);
                         acceuil.Show();
-  
-                        this.Close();
+                        ThisWindow.Close();
+                        MahApps.Metro.Controls.MetroWindow window = Window.GetWindow(acceuil) as MahApps.Metro.Controls.MetroWindow;
+                        if (window != null)
+                        {
+                            DateTime dt = DateTime.Today;
+                            string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+                            window.ShowMessageAsync("Hello "+USER.login, "It is ' "+dt.DayOfWeek+" the "+dt.Day+" of "+mt+" '. ");
+                            
+                        }
+                        
+                        
+                        
                     }
                     else
                     {
@@ -106,9 +118,35 @@ namespace Test
 
         }
 
-        private void Close()
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
         {
+            get
+            {
+                return Today;
+            }
 
+            set
+            {
+                Today = value;
+                
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
+            }
         }
     }
     }

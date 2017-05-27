@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +15,16 @@ namespace Test
     {
 
 
-
-        public RDVWiewModel(int X)
+        
+        public RDVWiewModel(int X, Window T)
         {
+            ThisWindow = T;
             MODIFY = new RelayCommand(ModifyEdit);
             DELETE = new RelayCommand(deleteRdv);
             EMPTY = new RelayCommand(emptyRDV);
-
+            SEARCH = new RelayCommand(searching);
+            Disconnect = new RelayCommand(disconnect);
+            Refresh = new RelayCommand(REFRESH);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -30,10 +35,11 @@ namespace Test
 
         }
         private PatientSet SelectedPatient;
-        private DateTime RDVDate;
+        private DateTime RDVDate = DateTime.Today;
         private List<RDVSet> RDVS;
         private RDVSet SelectedRDV;
-        private String State;
+        private bool State;
+        private Boolean X = false;
 
         HealthCareEntities3 ctx = new HealthCareEntities3();
 
@@ -206,7 +212,7 @@ namespace Test
             }
         }
 
-        public string State1
+        public bool State1
         {
             get
             {
@@ -231,11 +237,14 @@ namespace Test
                 try
                 {
                     ctx.SaveChanges();
+                    this.X = true;
+                    searching();
+                    this.X = false;
                     RaisePropertyChanged("RDVS1");
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Error when connecting to Database");
+                    ((MahApps.Metro.Controls.MetroWindow) ThisWindow).ShowMessageAsync("Rendez-Vous of  "+SelectedPatient1.FirstName, " Modification was successful ");
                 }
             }
         }
@@ -250,22 +259,117 @@ namespace Test
 
                 try
                 {
+                    this.X = true;
+                    searching();
+                    this.X = false;
                     ctx.SaveChanges();
+                    
                     RaisePropertyChanged("RDVS1");
                 }
                 catch (Exception e)
                 {
-                    
-                    MessageBox.Show("Error when connecting to Database");
+
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("Rendez-Vous of  " + SelectedPatient1.FirstName, " Error While Deleting Rendez-Vous ");
                 }
             }
         }
         public RelayCommand EMPTY { private set; get; }
         public void emptyRDV()
         {
-            State1 = null;
+            State1 = false;
             SelectedPatient1 = null;
             RDVDate1 = DateTime.Today;
         }
+
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        private DateTime SearchDate = DateTime.Today;
+
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+
+        public RelayCommand SEARCH { get; set; }
+
+        public void searching()
+        {
+            if (X == true)
+            {
+                try
+                {
+
+                    RDVS1 = ctx.RDVSets.ToList();
+                    RaisePropertyChanged("RDVS1");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                }
+            }
+            else
+            {
+                if (SearchDate1 != null)
+                {
+                    try
+                    {
+
+                        RDVS1 = ctx.RDVSets.Where(u => u.date == SearchDate1).ToList();
+                        RaisePropertyChanged("RDVS1");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                    }
+                }
+            }
+        }
+        public RelayCommand Refresh { get; set; }
+
+        public void REFRESH()
+        {
+            _Patients = ctx.PatientSets.ToList();
+            RDVS = ctx.RDVSets.ToList();
+            RaisePropertyChanged("RDVS1");
+            RaisePropertyChanged("Patients");
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public DateTime SearchDate1
+        {
+            get
+            {
+                return SearchDate;
+            }
+
+            set
+            {
+                SearchDate = value;
+            }
+        }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
+            }
+        }
+
     }
 }

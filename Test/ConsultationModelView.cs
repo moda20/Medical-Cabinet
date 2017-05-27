@@ -1,8 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +15,15 @@ namespace Test
     class ConsultationModelView : ViewModelBase
     {
 
-        public ConsultationModelView(int X)
+        public ConsultationModelView(int X, Window T)
         {
             ADDNEW = new RelayCommand(NewConsultation);
             MODIFY = new RelayCommand(ModifyConsultation);
             DELETE = new RelayCommand(deleteConsultation);
             EMPTY = new RelayCommand(emptyConsultation);
             SEARCH = new RelayCommand(searching);
+            Disconnect = new RelayCommand(disconnect);
+            Refresh = new RelayCommand(REFRESH);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -38,7 +42,8 @@ namespace Test
         private ConsultationSet SelectedConsultation;
         private FileSet SelectedFile;
         private List<ConsultationSet> Consultations;
-        private DateTime SearchDate;
+        private DateTime SearchDate = DateTime.Today;
+        private Boolean X;
 
 
         public List<PatientSet> _Patients;
@@ -204,7 +209,7 @@ namespace Test
                 if (SelectedConsultation !=null)
                 {
                     Act1 = value.actNature;
-                    CtDate1 = DateTime.Parse(value.date);
+                    CtDate1 = value.date;
                     Cost1 = (float)value.cost;
                     SelectedFile1 = value.FileSet;
                 }
@@ -224,12 +229,15 @@ namespace Test
             {
                 cts.actNature = Act1;
                 cts.cost = Cost1;
-                cts.date = (CtDate1).ToShortDateString();
+                cts.date = CtDate1;
                 cts.FileSet = SelectedFile1;
                 try
                 {
                     ctx.ConsultationSets.Add(cts);
                     ctx.SaveChanges();
+                    this.X = true;
+                    searching();
+                    this.X = false;
                     MessageBox.Show("Consultation Added"+ Files.Count);
                     
                     RaisePropertyChanged("Files");
@@ -265,12 +273,16 @@ namespace Test
 
                 SelectedConsultation1.actNature = Act1;
                 SelectedConsultation1.cost = Cost1;
-                SelectedConsultation1.date = (CtDate1).ToShortDateString();
+                SelectedConsultation1.date = CtDate1;
                 SelectedConsultation1.FileSet = SelectedFile1;
 
                 try
                 {
+
                     ctx.SaveChanges();
+                    this.X = true;
+                    searching();
+                    this.X = false;
                 }
                 catch (Exception e)
                 {
@@ -299,6 +311,9 @@ namespace Test
                         SelectedConsultation1.FileSet = null;
                         ctx.ConsultationSets.Remove(SelectedConsultation1);
                         ctx.SaveChanges();
+                        this.X = true;
+                        searching();
+                        this.X = false;
                         RaisePropertyChanged("SelectedConsultation1");
                         RaisePropertyChanged("Consultations1");
                         MessageBox.Show("Consultation Deleted");
@@ -374,13 +389,77 @@ namespace Test
         public RelayCommand SEARCH { private set; get; }
         public void searching()
         {
-            if (SearchDate1 != null)
+           
+            if (X == true)
             {
-                Consultations1 = ctx.ConsultationSets.Where(u => DateTime.Parse(u.date) > SearchDate1).ToList();
-                RaisePropertyChanged("SearchDate1");
-                MessageBox.Show("Found : " + Consultations1.Count + " Consultations");
+                try
+                {
+
+                    Consultations1 = ctx.ConsultationSets.ToList();
+                    RaisePropertyChanged("SearchDate1");
+                    
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                }
+            }
+            else
+            {
+                if (SearchDate1 != null)
+                {
+                    try
+                    {
+
+                        Consultations1 = ctx.ConsultationSets.Where(u => u.date == SearchDate1).ToList();
+                        RaisePropertyChanged("SearchDate1");
+                        RaisePropertyChanged("RDVS1");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                    }
+                }
+            }
+
+        }
+        public RelayCommand Refresh { get; set; }
+
+        public void REFRESH()
+        {
+            Consultations = ctx.ConsultationSets.ToList();
+            
+            RaisePropertyChanged("Consultations1");
+        }
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
             }
         }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
 
-}
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
+            }
+        }
+    }
 }

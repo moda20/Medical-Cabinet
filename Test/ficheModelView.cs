@@ -7,18 +7,23 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using System.Data.Entity;
 using GalaSoft.MvvmLight;
+using System.Globalization;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Test
 {
     class ficheModelView : ViewModelBase
     {
-
-        public ficheModelView(int X)
+        
+        public ficheModelView(int X, Window T)
         {
+            ThisWindow = T;
             Searching = new RelayCommand(Search);
             ADDNEW = new RelayCommand(newFile);
             MODIFY = new RelayCommand(updateFile);
             DELETE = new RelayCommand(deleteFile);
+            Disconnect = new RelayCommand(disconnect);
+            Refresh = new RelayCommand(REFRESH);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -32,25 +37,20 @@ namespace Test
         HealthCareEntities3 ctx = new HealthCareEntities3();
         
 
-        private DateTime SearchDate;
+        private DateTime SearchDate = DateTime.Today;
         private string searChkey;
+        private Boolean X = false;
         public List<PatientSet> _Patients;
         public List<PatientSet> Patients
         {
             get
             {
-                if (_Patients != null)
-                {
-                    return _Patients;
-                }
-                else
-                {
+             
                     List<PatientSet> UList = new List<PatientSet>();
                     UList = ctx.PatientSets.ToList();
                     _Patients = UList;
                     return _Patients;
-                }
-
+              
             }
             set
             {
@@ -149,21 +149,21 @@ namespace Test
 
 
         private PatientSet selectedPatient;
-        public PatientSet SelectedPatient
+        public PatientSet SelectedPatient1
         {
             get
             {
 
-                if(selectedFile != null)
-                {
-                    return selectedFile.PatientSet;
-                } else return selectedPatient;
+                
+                return selectedPatient;
 
 
             }
 
 
-            set { selectedPatient = value; }
+            set { selectedPatient = value;
+                RaisePropertyChanged("SelectedPatient1");
+                    }
         }
         private int fileid;
         public int Fileid
@@ -209,14 +209,49 @@ namespace Test
         public RelayCommand Searching { private set; get; }
         public void Search()
         {
-            if (SearchDate != null && searChkey != null)
-            {
-                List<PatientSet> UList = new List<PatientSet>();
-                UList = ctx.PatientSets.Where(u => u.LastVisit >= SearchDate || u.FirstName == searChkey).ToList();
-                List<FileSet> Listf = new List<FileSet>();
-                Listf = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList();
 
+
+            if (X == true)
+            {
+                try
+                {
+
+                    Patients = ctx.PatientSets.ToList();
+                    Files = ctx.FileSets.ToList();
+                    RaisePropertyChanged("RDVS1");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                }
             }
+            else
+            {
+                if (SearchDate1 != null)
+                {
+                    try
+                    {
+
+                        Patients = ctx.PatientSets.Where(u => u.LastVisit >= SearchDate || u.FirstName == searChkey).ToList();
+                        Files = ctx.FileSets.Where(u => u.CreationDate >= SearchDate).ToList(); 
+                        RaisePropertyChanged("RDVS1");
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error in Database Connexion, Please Try again.", e.Message);
+                    }
+                }
+            }
+        }
+
+        public RelayCommand Refresh { get; set; }
+
+        public void REFRESH()
+        {
+            
+            _Files = ctx.FileSets.ToList();
+            RaisePropertyChanged("Files");
+            
         }
         public RelayCommand ADDNEW { private set; get; }
 
@@ -229,11 +264,15 @@ namespace Test
 
             set
             {
-                selectedFile = value;
-                Fileid = selectedFile.Id;
-                FileDate = selectedFile.CreationDate;
-                selectedPatient = selectedFile.PatientSet;
-                MessageBox.Show(selectedFile.Id.ToString());
+                if (value != null)
+                {
+                    
+                    selectedFile = value;
+                    Fileid = value.Id;
+                    FileDate = value.CreationDate;
+                    SelectedPatient1 = value.PatientSet;
+                }
+                
             }
         }
 
@@ -246,7 +285,7 @@ namespace Test
 
             set
             {
-                filedate = value;
+                filedate = value; RaisePropertyChanged("FileDate");
             }
         }
 
@@ -280,30 +319,80 @@ namespace Test
 
         public void newFile()
         {
-            if (filedate != null && selectedPatient != null)
+            Exception Xe= null;
+            if (filedate != null && SelectedPatient1 != null)
             {
                 FileSet NEW = new FileSet();
                 NEW.CreationDate = filedate;
-               
-                NEW.PatientSet = selectedPatient;
-                selectedPatient.FileSet = NEW;
-                ctx.Entry(selectedPatient).State = EntityState.Modified;
 
                 try
                 {
-                    ctx.FileSets.Add(NEW);
-                    ctx.SaveChanges();
-                    MessageBox.Show("File Added for "+ selectedPatient.FirstName);
+                    try
+                    {
+                        if (SelectedPatient1.FileSet == null)
+                        {
+                            NEW.PatientSet = SelectedPatient1;
+                        }
+                        else
+                        {
+                            throw new Exception("Patient Already has a File");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Xe = e;
+                        throw e;
+                    
+                    }
+                    SelectedPatient1.FileSet = NEW;
+                    ctx.Entry(SelectedPatient1).State = EntityState.Modified;
+
+                    try
+                    {
+                        ctx.FileSets.Add(NEW);
+                        ctx.SaveChanges();
+                        this.X = true;
+                        Search();
+                        this.X = false;
+                        MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                        if (wd != null)
+                        {
+                            wd.ShowMessageAsync("File Added for " + SelectedPatient1.FirstName,"");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Error , Please verify your Entries", e.ToString());
-                   
+                    if (Xe == null)
+                    {
+                        MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                        if (wd != null)
+                        {
+                            wd.ShowMessageAsync("Error While adding file", "Please Verify your Entries \n Error :"+e.ToString());
+                        }
+                    }
+                    else
+                    {
+                        MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                        if (wd != null)
+                        {
+                            wd.ShowMessageAsync("Error While adding file for " + SelectedPatient1.FirstName, Xe.Message);
+                        }
+                    }
+
                 }
             }
             else
             {
-                MessageBox.Show("Please Fill the corresponding Entries before Adding");
+                MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                if (wd != null)
+                {
+                    wd.ShowMessageAsync("Error While adding file", "Please Fill out all entries");
+                }
             }
         }
         public RelayCommand MODIFY { private set; get; }
@@ -313,25 +402,40 @@ namespace Test
             {
             
                 SelectedFile1.CreationDate = filedate;
-                SelectedFile1.PatientSet = selectedPatient;
+                SelectedFile1.PatientSet = SelectedPatient1;
 
                 try
                 {
                     ctx.SaveChanges();
+                    this.X = true;
+                    Search();
+                    this.X = false;
                     RaisePropertyChanged("SelectedFile1");
                     RaisePropertyChanged("Files");
-                    MessageBox.Show("File Modified");
+                    MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                    if (wd != null)
+                    {
+                        wd.ShowMessageAsync("File of" + SelectedPatient1.FirstName+" Modified", "");
+                    }
                 }
                 catch (Exception e)
                 {
 
-                    MessageBox.Show("Error , Please Retry again");
+                    MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                    if (wd != null)
+                    {
+                        wd.ShowMessageAsync("Error While Modifying file for " + SelectedPatient1.FirstName, "");
+                    }
                 }
 
             }
             else
             {
-                MessageBox.Show("You need to select a File To modify first.");
+                MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                if (wd != null)
+                {
+                    wd.ShowMessageAsync("Error While Updating file " , "Please Choose a File to modify first");
+                }
             }
         }
 
@@ -343,8 +447,45 @@ namespace Test
             {
                 ctx.FileSets.Remove(SelectedFile1);
                 ctx.SaveChanges();
+                this.X = true;
+                Search();
+                this.X = false;
                 RaisePropertyChanged("Files");
-                MessageBox.Show("File Deleted");
+                MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(ThisWindow) as MahApps.Metro.Controls.MetroWindow;
+                if (wd != null)
+                {
+                    wd.ShowMessageAsync("File deleted successfully","");
+                }
+            }
+        }
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
             }
         }
     }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 05/16/2017 10:51:09
+-- Date Created: 05/26/2017 15:16:10
 -- Generated from EDMX file: E:\Test\Test\Test\Model1.edmx
 -- --------------------------------------------------
 
@@ -68,7 +68,7 @@ GO
 -- Creating table 'ConsultationSets'
 CREATE TABLE [dbo].[ConsultationSets] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [date] nvarchar(max)  NOT NULL,
+    [date] datetime  NOT NULL,
     [actNature] nvarchar(max)  NOT NULL,
     [cost] float  NOT NULL,
     [FileId] int  NOT NULL
@@ -87,7 +87,7 @@ GO
 CREATE TABLE [dbo].[RDVSets] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [date] datetime  NOT NULL,
-    [state] nvarchar(max)  NOT NULL,
+    [state] bit  NOT NULL,
     [Patient_Id] int  NOT NULL
 );
 GO

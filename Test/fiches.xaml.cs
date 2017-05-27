@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Logique d'interaction pour fiches.xaml
     /// </summary>
-    public partial class fiches : Window
+    public partial class fiches : MetroWindow
     {
         public int Role;
         public fiches(int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new ficheModelView(X);
+            var ViewModel = new ficheModelView(X, Window.GetWindow(this));
             DataContext = ViewModel;
         }
 
@@ -47,6 +48,24 @@ namespace Test
             NewPatients x = new NewPatients(Role);
             x.Show();
             this.Close();
+        }
+        private void DG1_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+
+            ////Cancel the column you don't want to generate
+            //if (headername == "MiddleName")
+            //{
+            //    e.Cancel = true;
+            //}
+
+            //update column details when generating
+            if (headername == "PatientSet")
+            {
+                e.Column.Header = "Patient";
+                (e.Column as DataGridTextColumn).Binding = new Binding("PatientSet.FirstName");
+
+            }
         }
     }
 }

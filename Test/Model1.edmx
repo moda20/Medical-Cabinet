@@ -42,7 +42,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="actNature" Type="nvarchar(max)" Nullable="false" />
     <Property Name="cost" Type="float" Nullable="false" />
     <Property Name="FileId" Type="int" Nullable="false" />
@@ -61,7 +61,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="date" Type="datetime" Nullable="false" />
-    <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="state" Type="bit" Nullable="false" />
     <Property Name="Patient_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UserSets">
@@ -155,7 +155,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="date" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
           <Property Name="actNature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="cost" Type="Double" Nullable="false" />
           <Property Name="FileId" Type="Int32" Nullable="false" />
@@ -176,7 +176,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="date" Type="DateTime" Nullable="false" />
-          <Property Name="state" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="state" Type="Boolean" Nullable="false" />
           <Property Name="Patient_Id" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="UserSet">

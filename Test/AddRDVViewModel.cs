@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +14,11 @@ namespace Test
     class AddRDVViewModel : ViewModelBase
     {
         HealthCareEntities3 ctx = new HealthCareEntities3();
-        public AddRDVViewModel(int X)
+        public AddRDVViewModel(int X,Window T)
         {
+            ThisWindow = T;
             ADDRDV = new RelayCommand(NewRDV);
+            Disconnect = new RelayCommand(disconnect);
             switch (X)
             {
                 case 2: IsSec = "Visible"; break;
@@ -43,8 +47,8 @@ namespace Test
         }
 
         private PatientSet SelectedPatient;
-        private DateTime RDVdate;
-        private String State;
+        private DateTime RDVdate = DateTime.Today;
+        private bool State;
 
         private String isDoctor = "Hidden";
         private String isSec = "Hidden";
@@ -130,7 +134,7 @@ namespace Test
             }
         }
 
-        public string State1
+        public bool State1
         {
             get
             {
@@ -146,7 +150,7 @@ namespace Test
         public RelayCommand ADDRDV { private set; get; }
         public void NewRDV()
         {
-            if ( State1 != null && RDVdate1 != null && SelectedPatient1 != null)
+            if (  RDVdate1 != null && SelectedPatient1 != null)
             {
                 RDVSet rdv = new RDVSet();
                 rdv.date = RDVdate1;
@@ -157,14 +161,44 @@ namespace Test
                 {
                     ctx.RDVSets.Add(rdv);
                     ctx.SaveChanges();
-                    MessageBox.Show("RDV for : " + SelectedPatient1.FirstName + " added.");
-                    
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("Rendez-Vous of  " + SelectedPatient1.FirstName, " Adding of new Rendez-Vous was successful ");
+
                 }
                 catch (Exception e)
                 {
-                
-                    MessageBox.Show("Databse Connetion Error, PLease Try again  :  "+e.Message);
+
+                    ((MahApps.Metro.Controls.MetroWindow)ThisWindow).ShowMessageAsync("Rendez-Vous of  " + SelectedPatient1.FirstName, " Error while adding the Rendez-Vous ");
                 }
+            }
+        }
+        static DateTime dt = DateTime.Today;
+        static string mt = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dt.Month);
+        private String Today = "" + dt.DayOfWeek + " the " + dt.Day + " of " + mt + "";
+        public string Today1
+        {
+            get
+            {
+                return Today;
+            }
+
+            set
+            {
+                Today = value;
+                RaisePropertyChanged("Today1");
+            }
+        }
+        public RelayCommand Disconnect { private set; get; }
+        public Window ThisWindow { get; private set; }
+
+        public void disconnect()
+        {
+            ThisWindow.Close();
+            MainWindow x = new MainWindow();
+            x.Show();
+            MahApps.Metro.Controls.MetroWindow wd = Window.GetWindow(x) as MahApps.Metro.Controls.MetroWindow;
+            if (wd != null)
+            {
+                wd.ShowMessageAsync("You were Disconnected ", " You were disconnected and sent back to login Window");
             }
         }
     }

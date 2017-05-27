@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Interaction logic for UserCity.xaml
     /// </summary>
-    public partial class UserCity : Window
+    public partial class UserCity : MetroWindow
     {
         public int Role;
         public UserCity(int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new UserCityModelView(X);
+            var ViewModel = new UserCityModelView(X,Window.GetWindow(this));
             DataContext = ViewModel;
         }
 

@@ -1,20 +1,35 @@
-﻿<Window x:Class="Test.MainWindow"
+﻿<Controls:MetroWindow x:Class="Test.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="341" Width="381">
+        Title="HeathCare" Height="341" Width="381" Icon="images/pictograms-nps-hospital.png"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            
+            <Button>
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Margin="4 0 0 0"
+                   VerticalAlignment="Center"
+                   Text="{Binding Today1}" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid Background="#FFFFFCFC" Margin="0,0,0,5">
         <Image HorizontalAlignment="Left" Height="100" Margin="137,10,0,0" VerticalAlignment="Top" Width="125" Source="images/images.png"/>
-        <Grid HorizontalAlignment="Left" Height="152" Margin="27,115,0,0" VerticalAlignment="Top" Width="316" Background="#FF778FA4">
-            <Grid HorizontalAlignment="Left" Height="132" Margin="10,10,0,0" VerticalAlignment="Top" Width="295" Background="#FFEEEEEE">
-                <Label Content="Nom :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Grid Margin="0,115,30,0" Background="#FF778FA4" HorizontalAlignment="Right" Width="316" Height="152" VerticalAlignment="Top">
+            <Grid Margin="10,10,11,10" Background="#FFEEEEEE">
+                <Label Content="Login" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NomBox" HorizontalAlignment="Left" Height="23" Margin="112,13,0,0" TextWrapping="Wrap" Text="{Binding name, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <Label Content="Mot de passe :" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-                <Button Command="{Binding Connect}" CommandParameter="{Binding ElementName=MdpBox}" Content="Connexion" HorizontalAlignment="Left" Margin="130,95,0,0" VerticalAlignment="Top" Width="75" Background="#FFDDE2DE" Click="Button_Click_1"  />
-                <Button Content="Annuler" HorizontalAlignment="Left" Margin="210,95,0,0" VerticalAlignment="Top" Width="75" Background="#FFDDE2DE"/>
-                <TextBox x:Name="MdpBox"  Text="{Binding pass}"   HorizontalAlignment="Left" Margin="112,49,0,0" VerticalAlignment="Top" Width="120"/>
+                <PasswordBox Margin="112,44,63,62" x:Name="pass" PasswordChanged="PassChanged"></PasswordBox>
+                <Label Content="Password :" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <Button Style="{DynamicResource SquareButtonStyle}" Command="{Binding Connect}" CommandParameter="{Binding ElementName=MdpBox}" Content="Sign in" HorizontalAlignment="Left" Margin="130,95,0,0" VerticalAlignment="Top" Width="75" Background="#FFDDE2DE" Click="Button_Click_1"  />
+                <Button Style="{DynamicResource SquareButtonStyle}" Content="Cancel" HorizontalAlignment="Left" Margin="210,95,0,0" VerticalAlignment="Top" Width="75" Background="#FFDDE2DE"/>
+               
             </Grid>
         </Grid>
-        
+
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

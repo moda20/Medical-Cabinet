@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +18,14 @@ namespace Test
     /// <summary>
     /// Interaction logic for Consultation.xaml
     /// </summary>
-    public partial class Consultation : Window
+    public partial class Consultation : MetroWindow
     {
         public int Role;
         public Consultation(int X)
         {
             Role = X;
             InitializeComponent();
-            var ViewModel = new ConsultationModelView(X);
+            var ViewModel = new ConsultationModelView(X,Window.GetWindow(this));
             DataContext = ViewModel;
         }
 
@@ -48,6 +49,57 @@ namespace Test
             fiches x = new fiches(Role);
             x.Show();
             this.Close();
+        }
+
+
+        private void DG2_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+
+            ////Cancel the column you don't want to generate
+            //if (headername == "MiddleName")
+            //{
+            //    e.Cancel = true;
+            //}
+
+            //update column details when generating
+            if (headername == "FileSet")
+            {
+                e.Column.Header = "File";
+
+                (e.Column as DataGridTextColumn).Binding = new Binding("FileSet.Id");
+            }
+            else if (headername == "CitySet")
+            {
+                e.Column.Header = "City Name";
+                (e.Column as DataGridTextColumn).Binding = new Binding("PCity.name");
+            }
+            else if (headername == "RDVSets")
+            {
+                e.Cancel = true;
+
+
+            }
+            else if (headername == "CitySetId")
+            {
+                e.Cancel = true;
+            }
+            else if (headername == "FileId")
+            {
+                e.Column.Header = "File Id";
+                e.Cancel = true;
+            }
+            else if (headername == "ConsultationSets")
+            {
+                e.Column.Header = "Consultations";
+                e.Cancel = true;
+            }
+
+        }
+
+        private void Admin_Manage_CityUser_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
